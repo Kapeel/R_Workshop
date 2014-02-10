@@ -1,0 +1,703 @@
+R Basics and RStudio
+========================================================
+author: Isaac Jenkins, BIO5 StatLab
+date: February 6, 2014
+
+Material borrowed largely from [Corey Chivers]
+(https://sites.google.com/site/mcgillbgsa/workshops/intro-R-1), Thank You!
+
+```{r, echo = FALSE, include = FALSE}
+opts_chunk$set(prompt = TRUE)
+```
+
+What is R?
+========================================================
+
+[R](http://www.r-project.org) is a **free software programming language** 
+and software environment for 
+statistical computing and graphics. The R language is widely used among 
+statisticians and data miners for developing statistical software and data 
+analysis.
+
+*<p>Source: <a href="http://en.wikipedia.org/wiki/R_(programming_language)">
+Wikipedia</a></p>*
+
+Why use R?
+========================================================
+
+- It's FREE
+- It works across platforms
+- There are **5,169 CRAN Packages**
+  - Something for everyone
+  - See [CRAN Task Views](http://cran.r-project.org/web/views/)
+- Provides a written record for **reproducibility**
+- Did I mention it's **FREE**?
+
+R's Popularity
+========================================================
+
+Ranks #15 among programming languages
+
+![Alt text](http://sogrady-media.redmonk.com/sogrady/files/2014/01/lang-rank-114-wm.png)
+
+*Source: [RedMonk People](http://redmonk.com/sogrady/2014/01/22/language-rankings-1-14/)*
+
+Fun with R
+========================================================
+
+![Alt text](http://spark.rstudio.com/jkatz/Data/comp-105.png)
+
+*Source: [Dialect Survey](http://spark.rstudio.com/jkatz/SurveyMaps/)*
+
+Reproducibility WITHOUT R
+========================================================
+type: alert
+
+Tedious
+![Alt text](http://upload.wikimedia.org/wikipedia/commons/2/27/Excel_chart.PNG)
+
+***
+
+Impossible?
+![Alt text](http://upload.wikimedia.org/wikipedia/en/2/23/MS_Word_2007.png)
+
+Reproducibility WITH R
+========================================================
+type: alert
+
+Intimidating
+![Alt text]
+(http://upload.wikimedia.org/wikipedia/en/8/82/Sublime-text-2-screenshot.png)
+
+***
+
+Responsible?
+![Alt text](http://upload.wikimedia.org/wikipedia/commons/9/9c/Latex_example.png)
+
+What is RStudio?
+========================================================
+
+[RStudio](http://www.rstudio.com) IDE is a powerful and productive **user 
+interface for R**. It's free and open source, and works great on Windows, Mac, 
+and Linux. 
+
+*Source: [RStudio People](http://www.rstudio.com)*
+
+Why use RStudio?
+========================================================
+
+- It's **FREE**
+- Mostly the same on different operating systems
+- Enhances the R lifestyle
+- Encourages LaTeX and Markdown --> Promotes reproducibility
+- Did I mention it's **FREE**?
+
+Why is R difficult to learn?
+========================================================
+
+- R is *command driven*
+- R won't make suggestions or guide you
+- R will do what it is told
+- Takes practice to control R
+
+Workshop Objectives
+========================================================
+- Open and navigate RStudio
+- Enter R commands
+  - See input and output
+  - Try some common functions
+- Learn about types of data in R
+- How to find help
+- Navigate a data frame
+
+Challenges
+========================================================
+type: prompt
+
+- Throughout the workshop, you will be presented with a series of 
+challenges
+- Challenges are on green backgrounds
+- Collaborate with your neighbor when you get stuck
+- Take a moment now to meet the person next to you
+  
+Challenge 1
+========================================================
+type: prompt
+
+1. Open RStudio
+2. Get familiar with the RStudio environment
+
+Challenge 1 Solution
+========================================================
+type: prompt
+![Alt text](http://www.rstudio.com/images/screenshots/rstudio-windows.png)
+
+The R Console
+========================================================
+Text in the R console typically looks like:
+
+```{r}
+x <- c(1, 2, 3)
+x
+```
+
+Or:
+
+```{r, results = 'hide', eval = FALSE}
+Input (commands)
+```
+
+```{r, echo = FALSE}
+cat("Output (results)")
+```
+
+R is a BIG calculator
+========================================================
+```{r}
+1 + 1
+```
+```{r}
+2 * 2
+```
+```{r}
+2 ^ 3
+```
+
+***
+
+```{r}
+10 - 1
+```
+```{r}
+8 / 2
+```
+```{r}
+sqrt(9)
+```
+
+
+Challenge 2
+========================================================
+type: prompt
+
+1. Calculate this: 13 + 45 * 31 - 43 / (4-1) + 623
+2. The square root of the number of people in the room plus the cube 
+of the number of people you know in the room minus your age
+3. The mean of the numbers 1, 2, 3, 4, and 5
+
+Challenge 2 Solutions
+========================================================
+type: prompt
+
+```{r}
+# 1
+13 + 45 * 31 - 43 / (4-1) + 623
+```
+
+```{r}
+# 2
+sqrt(18) + 6^3 - 23
+```
+
+```{r}
+# 3
+(1 + 2 + 3 + 4 + 5) / 5
+```
+
+Variables
+========================================================
+
+- You can store values (objects) in symbolic variables (names) using an 
+assignment operator (**<-**)
+- The **<-** means assign the *value* on the right to the *name* on the 
+left
+- Variable names can include: letters, numbers, periods and underscores
+- Variables typically begin with a **letter**
+- Create the following variables:
+```{r, results = 'hide'}
+a <- 10
+b <- 3 * a
+log.a <- log(a)
+b.seq <- 1:b
+```
+
+
+Challenge 3
+========================================================
+type: prompt
+
+1. Assign the answer to question 1 from challenge 2 to a variable with the 
+name of your choice.
+2. Did you do this without retyping or cutting and pasting?
+3. If no, can you?
+
+Challenge 3 Solutions
+========================================================
+type: prompt
+
+```{r}
+# 1
+ch2.ans1 <- 13 + 45 * 31 - 43 / (4-1) + 623
+ch2.ans1
+```
+
+```{r}
+# 2 and 3
+# Yes, use the up and down arrows to cycle through the command history.
+```
+
+
+Vectors
+========================================================
+- The most basic kind of R object is a vector
+- Think of it as a collection of related values (data)
+```{r}
+b.seq
+```
+
+```{r}
+a
+```
+
+Vectors
+========================================================
+- Vectors are created with the **```c()```** function
+```{r, results = 'hide'}
+my.fav.nums <- c(2, 24, 31, 431)
+```
+- You can access an element of a vector by its index
+```{r}
+my.fav.nums[3]
+```
+
+Vectors
+========================================================
+- Vectors can be used in calculations
+- Operations are executed on each item
+```{r}
+my.fav.nums + 20 
+my.fav.nums / 2 + 1
+```
+
+Vectors
+========================================================
+Vectors can be used as arguments to functions
+```{r}
+sqrt(my.fav.nums) 
+mean(my.fav.nums) 
+sum(my.fav.nums)
+```
+
+Vectors
+========================================================
+Vectors can be used in plots
+```{r, fig.align = 'center'}
+plot(1:4, my.fav.nums)
+```
+
+Use variables in calculations
+========================================================
+Vectors stored in variables can be used to create other vectors 
+(which can also be stored in variables)
+
+```{r}
+weight <- c(60, 72, 57, 90, 95, 72)
+height <- c(1.7, 1.8, 1.6, 1.9, 1.7, 1.9)
+bmi <- weight / height^2
+bmi
+```
+
+Cool Plot Break
+========================================================
+```{r, echo = FALSE, fig.align = 'center'}
+require(ggplot2)
+set.seed(12345)
+pd <- data.frame(weight = sample(50:95, 50, replace = TRUE), 
+                 height = sample(seq(1.5, 2, .1), 50, replace = TRUE))
+pd$bmi <- with(pd, weight / height^2)
+ggplot(pd, aes(x = height, y = weight, color = bmi)) + 
+  geom_point(size = 8) + 
+  scale_color_gradient(low = "steelblue3", high = "red")
+```
+
+***
+
+```{r, echo = FALSE, fig.align = 'center'}
+require(ggplot2)
+ggplot(pd, aes(x = height, y = weight, size = bmi)) + 
+  geom_point()
+```
+
+Challenge 4
+========================================================
+type: prompt
+
+1. Store the integers from 1 to 100 in a variable. (Hint: we used it earlier
+to make ```b.seq```; or, try typing **```?colon```**)
+2. What is the sum of the squares of your vector in #1?
+3. Store the EVEN integers from 1 to 100 in a variable (see hint below).
+4. What is the mean of your vector in #3?
+5. What is the standard deviation of the ODD integers from 1 to 100?
+```{r}
+# Hint for 3
+seq(5, 25, 5)
+```
+
+Challenge 4 Solutions (1 and 2)
+========================================================
+type: prompt
+
+```{r}
+# 1
+q1 <- 1:100
+head(q1)
+# 2
+sum(q1^2)
+```
+
+
+Challenge 4 Solutions (3, 4, and 5)
+========================================================
+type: prompt
+
+```{r}
+# 3
+q3 <- seq(2, 100, 2)
+head(q3)
+# 4
+mean(q3)
+# 5
+sd(seq(1, 100, 2))
+```
+
+Other Data Types
+========================================================
+**Characters** (strings) such as "hello world" and "1.23"
+```{r}
+class("hello world")
+class("1.23")
+class(1.23)
+```
+
+Other Data Types
+========================================================
+**Factors** can be thought of as categorical variables
+```{r}
+trt <- factor(c("Control", "Trt1", "Trt2"))
+trt
+class(trt)
+```
+
+Characters vs. Factors
+========================================================
+```{r}
+# Characters
+char <- c("b", "c", "a")
+char
+sort(char)
+char[1] <- "d"
+char
+```
+
+Characters vs. Factors
+========================================================
+type: alert
+**Factors look and act a lot different**
+```{r}
+# Factors
+fact <- factor(c("b", "c", "a"), levels = c("c", "b", "a"))
+fact
+sort(fact)
+```
+
+Characters vs. Factors
+========================================================
+type: alert
+**HERE IS A BIG DIFFERENCE**
+```{r, warning = TRUE}
+# Factors
+fact[1] <- "d"
+fact
+```
+
+Other Data Types
+========================================================
+**Logicals** take the values TRUE and FALSE
+```{r}
+logical1 <- c(TRUE, FALSE)
+class(logical1)
+logical2 <- c(T, F)
+logical2
+```
+Comparison of 2 values results in a logical value: **TRUE** or **FALSE**
+
+Logicals and Comparisons
+========================================================
+- **```==```**: equal
+- **```!=```**: not equal
+- **```>```**: greater than
+- **```<```**: less than
+- **```>=```**: greater than or equal to
+- **```<=```**: less than or equal to
+
+***
+
+```{r}
+3 == 3
+41 <= 32
+5 != 7
+```
+
+Built-in Variables
+========================================================
+```{r, echo = FALSE}
+options(digits = 19)
+```
+```{r}
+pi
+head(letters)
+tail(letters)
+```
+***
+```{r}
+head(LETTERS)
+tail(LETTERS)
+exp(1) # Function
+```
+```{r, echo = FALSE}
+options(digits = 3)
+```
+
+Reserved Words
+========================================================
+You cannot use these as variables
+- **```NA```**: "Not Available" (*missing* data)
+- **```NaN```**: "Not a Number" (*undefined* numeric values, e.g. 5 / 0)
+- **```NULL```**: a special object (missing *objects*)
+- **```Inf```**: Infinity
+- **```TRUE```**: logical value
+- **```FALSE```**: logical value
+
+Words you might not want to use
+========================================================
+- **T**: short for ```TRUE```
+- **F**: short for ```FALSE```
+- **```c, q, t, C, D, I, F```**: R functions
+- **```diff, df, pt, mean```**: R functions
+
+***
+
+```{r}
+c
+c <- 1:3
+c
+c(c)
+```
+
+Functions
+========================================================
+- Take in **arguments** and return **values**
+- You have to follow the syntax appropriately
+
+> **functionName**(*argument1* = x, *argument2* = y)
+
+- The **```cor()```** function calculates the correlation of 2 or more vectors
+
+```{r, eval = FALSE}
+cor(x = x, y = NULL, use = "everything", method = "pearson")
+```
+
+Writing your own Function
+========================================================
+```{r}
+# Function for the area of a triangle
+area.tri <- function(base, height) {
+  0.5 * base * height
+}
+area1 <- area.tri(10, 32)
+area1
+```
+
+Getting Help
+========================================================
+```{r}
+?cor
+help(cor)
+help.search("correlation")
+```
+
+Goto: [Correlation Help Documentation]
+(http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html)
+
+Challenge 5
+========================================================
+type: prompt
+
+1. Use the **sample()** function to create a vector of 20 random integers
+taken from the integers 1 to 10 (hint: **?sample**)
+2. Store #1 in a variable called **messy**.
+3. Sort messy in **increasing** order (hint: **?sort**).
+4. Sort messy in **decreasing** order.
+
+Challenge 5 Solutions 1 and 2
+========================================================
+type: prompt
+
+```{r}
+# 1 and 2
+messy <- sample(x = 1:10, size = 20, replace = TRUE)
+messy
+```
+
+Challenge 5 Solutions 3 and 4
+========================================================
+type: prompt
+
+```{r}
+# 3
+sort(messy)
+# 4
+sort(messy, decreasing = TRUE)
+```
+
+Other Object Types
+========================================================
+- Matrix
+  - Two-dimensional collection of data of the **same type**
+- Data frame
+  - Two-dimensional collection of data of the **same OR different types**
+  - Like an excel spreadsheet
+- List
+  - Ordered collection of objects of the **same OR different types**
+- Array
+  - A multiply subscripted collection of data entries
+  
+Working with a Data Frame
+========================================================
+```{r, eval = FALSE}
+data(CO2) # load a built in data file
+
+dim(CO2) # number of rows and columns
+
+head(CO2) # see first 6 rows
+
+names(CO2) # column/variable names
+
+attributes(CO2) # its attributes
+
+str(CO2) # its structure (VERY USEFUL!)
+
+summary(CO2) # sumamry statistics
+
+plot(CO2) # plot of variable combinations
+```
+
+Better Plot?
+========================================================
+```{r, fig.align = 'center', results = 'hide'}
+require(psych)
+pairs.panels(CO2)
+```
+
+Indexing
+========================================================
+Refer to subsets of the data frame by:
+- **Numeric Index**
+```{r}
+CO2[c(3, 13, 34), 1:3]
+```
+
+Indexing
+========================================================
+Refer to subsets of the data frame by:
+- **Row and Column Names**
+```{r}
+CO2[c("2", "71", "14"), c("Plant", "Treatment", "uptake")]
+```
+
+Indexing
+========================================================
+Leave some blank to get all of 1 dimension:
+- **All Columns**
+```{r}
+CO2[1, ]
+```
+- **All Rows**
+```{r}
+CO2[, 1:3]
+```
+
+Indexing
+========================================================
+Use the **```$```** operator to call a single column
+```{r}
+CO2$uptake
+```
+
+Indexing
+========================================================
+Use logicals to subset the data:
+- Rows where **conc** is greater than 500
+```{r, eval = FALSE}
+CO2[CO2$conc > 500, ]
+```
+- Rows where **Treatment** equals "chilled"
+```{r, eval = FALSE}
+CO2[CO2$Treatment == "chilled", ]
+```
+- Can also use the **```subset()```** function
+```{r, eval = FALSE}
+subset(CO2, CO2$Plant == "Mc3")
+```
+
+Challenge 6
+========================================================
+type: prompt
+
+1. Load the built in data file **mtcars**
+2. What is the average horsepower (hp) of 4-cylinder (cyl) cars?
+3. Plot miles per gallon vs. weight for all cars.
+4. Plot miles per gallon vs. horsepower for cars with only 3 gears.
+
+Challenge 6 Solutions: 1 and 2
+========================================================
+type: prompt
+```{r}
+# 1
+data(mtcars)
+# 2
+mean(mtcars$hp[mtcars$cyl == 4])
+```
+
+Challenge 6 Solutions: 3
+========================================================
+type: prompt
+```{r, fig.align = 'center'}
+# 3
+with(mtcars, plot(mpg, wt))
+```
+
+Challenge 6 Solutions: 4
+========================================================
+type: prompt
+```{r, fig.align = 'center'}
+# 4
+mtcars.3gears <- subset(mtcars, mtcars$gear == 3)
+with(mtcars.3gears, plot(mpg, hp))
+```
+
+Exercises?
+========================================================
+- Get the exercise [here]
+(https://github.com/icj/R_Workshop_day1/raw/gh-pages/exercises/day1_exercises.pdf). 
+- Do now (if time)
+- Discuss at Q&A session
+
+Thank you to...
+========================================================
+- Corey Chivers and the Montreal R Users Group
+- Aedin Culhane
+- The R Project for Statistical Computing
+- RStudio People
+- BIO5 Institute
+- Southwest Environmental Health Sciences Center
