@@ -116,7 +116,7 @@ women <- read.table("/pat/to/file/Women.txt", sep = "\t", header = TRUE)
   \dd How many women have a weight under 120?
   \dd What is the average height of women who weigh between 124 and 150 pounds? 
   (hint: you need to subset the data and then find the mean)
-  \dd Sort the data by weight. (hint: ?order)
+  \dd Sort the data by age. (hint: ?order)
   \dd Give the 5th row the row name Lucy.
   \dd Write out this data frame as a tab delimited file using \ttt{write.table()}. 
   (call the file women\_out.txt)
