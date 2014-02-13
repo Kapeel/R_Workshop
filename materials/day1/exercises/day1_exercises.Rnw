@@ -118,8 +118,9 @@ women <- read.table("/pat/to/file/Women.txt", sep = "\t", header = TRUE)
   (hint: you need to subset the data and then find the mean)
   \dd Sort the data by age. (hint: ?order)
   \dd Give the 5th row the row name Lucy.
-  \dd Write out this data frame as a tab delimited file using \ttt{write.table()}. 
-  (call the file women\_out.txt)
+  \dd Write out the data frame as a tab delimited file (or csv file) using
+  \ttt{write.table()} (or \ttt{write.csv()}).
+  (call the file \ttt{women\_out.txt} or \ttt{women\_out.csv})
 \een
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
