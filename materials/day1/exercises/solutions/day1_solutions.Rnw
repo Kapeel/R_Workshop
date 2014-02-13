@@ -70,9 +70,9 @@ opts_knit$set(concordance = TRUE)
 <<web, eval = TRUE, echo = TRUE>>=
 # Read in file from the web
 myURL <- "http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/Women.txt"
-women <- read.table(myURL, sep = "\t", header = TRUE)
-head(women)
-str(women)
+Women <- read.table(myURL, sep = "\t", header = TRUE)
+head(Women)
+str(Women)
 @
 
 
@@ -82,57 +82,57 @@ str(women)
 
 <<solutions1>>=
 # 1. What are the column names of the imported data?
-colnames(women)
+colnames(Women)
 @
 <<solutions2>>=
 # 2. What is the class of this data set?
-class(women)
+class(Women)
 @
 <<solutions3>>=
 # 3. How many rows and columns are in the data?
-dim(women)
-nrow(women)
-ncol(women)
+dim(Women)
+nrow(Women)
+ncol(Women)
 @
 <<solutions4>>=
 # 4. What is the mean height, weight and age of the women?
-summary(women)
+summary(Women)
 @
 <<solution5>>=
 # 5. Compare the above result to using the function colMeans().
-colMeans(women)
+colMeans(Women)
 @
 <<solution6>>=
 # 6. How many women have a weight under 120?
-sum(women$weight < 120)
+sum(Women$weight < 120)
 @
 <<solution7>>=
 # 7. What is the average height of women who weigh between 124 and 150 pounds?
-mean(subset(women, women$weight > 124 & women$weight < 150)$height)
+mean(subset(Women, Women$weight > 124 & Women$weight < 150)$height)
 @
 <<solution8>>=
 # 8. Sort the data by age.
 
 # BEFORE
-head(women)
+head(Women)
 # AFTER
-women <- women[order(women$age), ] # this stores the change
-head(women)
+Women <- Women[order(Women$age), ] # this stores the change
+head(Women)
 @
 <<solution9>>=
 # 9. Give the 5th row the row name Lucy.
-rownames(women)[5] <- "Lucy"
-head(women)
+rownames(Women)[5] <- "Lucy"
+head(Women)
 @
 <<solution10>>=
 # 10. Write out the data frame as a tab delimited file (or csv file) using 
 # write.table() (or write.csv()).
 
 # As tab-delimited
-write.table(women, file = "women_out.txt", sep = "\t")
+write.table(Women, file = "women_out.txt", sep = "\t")
 
 # As csv
-write.csv(women, file = "women_out.csv")
+write.csv(Women, file = "women_out.csv")
 @
 
 

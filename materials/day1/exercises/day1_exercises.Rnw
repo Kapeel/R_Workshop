@@ -84,7 +84,7 @@ Let's begin by reading in a tab-delimited file from a website.
 <<web, eval = FALSE, echo = TRUE>>=
 # Read in file from the web
 myURL <- "http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/Women.txt"
-women <- read.table(myURL, sep = "\t", header = TRUE)
+Women <- read.table(myURL, sep = "\t", header = TRUE)
 @
 
 The text file now lives in a data frame called women in your R workspace.
@@ -96,7 +96,7 @@ the local file.
 
 <<local, eval = FALSE, echo = TRUE>>=
 # Download the file and make note of the path to where the file lives
-women <- read.table("/pat/to/file/Women.txt", sep = "\t", header = TRUE)
+Women <- read.table("/pat/to/file/Women.txt", sep = "\t", header = TRUE)
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
