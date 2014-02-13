@@ -1,0 +1,193 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  R Workshop Day 1 Exercises -- SOLUTIONS                                        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Preamble
+\documentclass[12pt]{article}
+\usepackage[top=1in,left=1in,right=1in,bottom=1in]{geometry}
+\geometry{letterpaper}           % ... or a4paper or a5paper or ...
+\usepackage[parfill]{parskip}    % Begin paragraph w/out indent
+%\geometry{landscape}            % For ALL landscape pages'
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}         % links go to top of figure instead of caption
+\usepackage{pdflscape}           % \begin{landscape} ... \end{landscape}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{appendix}
+% \pagenumbering{gobble}           % Turn off page numbering
+% \usepackage{natbib}              % For bibliography
+\hypersetup{
+    colorlinks=true,             % false: boxed links; true: colored links
+    linkcolor=blue,              % color of internal links
+    citecolor=black              % color of citation links
+    %linkedbordercolor=red,      % color of box around link
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% New LaTeX Commands
+\newcommand{\mb}{\mathbf}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\dd}{\item}
+\newcommand{\bb}{\textbf}
+\newcommand{\ttt}{\texttt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% KnitR Global Options
+<<knitr_global, eval = TRUE, include = FALSE>>=
+opts_chunk$set(echo = TRUE, results = 'markup', message = FALSE)
+opts_knit$set(concordance = TRUE)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Document Title and Author
+\title{TITLE}
+\author{Isaac Jenkins \\ {\tt <icj@email.arizona.edu>}}
+%\date{}                         % Activate to display a given date or no date
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\maketitle
+
+\section*{R Workshop - Day 1 Exercise Solutions}
+
+* Material borrowed from 
+\href{http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/}{A. Culhane} 
+(Thank you!) * 
+
+\subsection*{Read in Data}
+<<web, eval = TRUE, echo = TRUE>>=
+# Read in file from the web
+myURL <- "http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/Women.txt"
+women <- read.table(myURL, sep = "\t", header = TRUE)
+head(women)
+str(women)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Solutions}
+
+<<solutions1>>=
+# 1. What are the column names of the imported data?
+colnames(women)
+@
+<<solutions2>>=
+# 2. What is the class of this data set?
+class(women)
+@
+<<solutions3>>=
+# 3. How many rows and columns are in the data?
+dim(women)
+nrow(women)
+ncol(women)
+@
+<<solutions4>>=
+# 4. What is the mean height, weight and age of the women?
+summary(women)
+@
+<<solution5>>=
+# 5. Compare the above result to using the function colMeans().
+colMeans(women)
+@
+<<solution6>>=
+# 6. How many women have a weight under 120?
+sum(women$weight < 120)
+@
+<<solution7>>=
+# 7. What is the average height of women who weigh between 124 and 150 pounds?
+mean(subset(women, women$weight > 124 & women$weight < 150)$height)
+@
+<<solution8>>=
+# 8. Sort the data by age.
+
+# BEFORE
+head(women)
+# AFTER
+women <- women[order(women$age), ] # this stores the change
+head(women)
+@
+<<solution9>>=
+# 9. Give the 5th row the row name Lucy.
+rownames(women)[5] <- "Lucy"
+head(women)
+@
+<<solution10>>=
+# 10. Write out the data frame as a tab delimited file (or csv file) using 
+# write.table() (or write.csv()).
+
+# As tab-delimited
+write.table(women, file = "women_out.txt", sep = "\t")
+
+# As csv
+write.csv(women, file = "women_out.csv")
+@
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Appendix
+% \clearpage
+% \appendix
+% \appendixpage
+% 
+% % Data Files Section
+% <<files_used, eval = FALSE, results = 'asis'>>=
+% if ("file.name" %in% ls()) {
+%   cat("\\section{Data Sources} ")
+%   cat(paste("Data are read from this file: \\verb", file.name, "\\\\"))
+% } 
+% if ("files" %in% ls()) {
+%   cat("\\section{Data Sources} ")
+%   cat("Data are read from the following files:\\\\[10pt]")
+%   for (file.name in files) {
+%     cat(paste("\\verb", file.name, "\\\\"))
+%   }
+% }
+% @
+% 
+% 
+% \section{R Session Information}
+% <<r_session_info, results = 'markup', background = 'white', comment = NA>>=
+% sessionInfo()
+% @
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Bibliography
+% \clearpage                   % start on fresh page
+% \bibliography{bibfile.bib}   % put in same directory
+% \bibliographystyle{natbib}   % put natbib.bst in same directory (in ~/useful)
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Generic Templates
+
+%% XTable Template
+% <<table_name, eval = TRUE, results = 'asis'>>=
+% print(xtable(x,
+%              digit = c(0),
+%              caption = "Caption",
+%              label = "tab:tableName"),
+% #       add.to.row = list(pos = list(), # after which row 
+% #                         command = c("\\midrule ")), # adds line
+%       table.placement = "H",
+%       include.rownames = TRUE,
+%       booktabs = TRUE)
+% @
