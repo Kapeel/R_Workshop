@@ -4,43 +4,102 @@ author: Isaac Jenkins
 date: February 20, 2014
 
 ```{r, echo = FALSE, include = FALSE}
-opts_chunk$set(prompt = TRUE)
+opts_chunk$set(prompt = FALSE)
+```
+
+Import from Excel
+========================================================
+
+```{r, import_data}
+require(gdata)
+hotdog <- read.xls("hotdog.xlsx", pattern = "Day", sheet = "HotDog")
+
+# order the factor Day
+hotdog$Day <- factor(hotdog$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+```
+
+Inspect Data
+========================================================
+```{r, inspect_data, echo = TRUE}
+dim(hotdog)
+hotdog[, 1:5]
+```
+
+Data Structure
+========================================================
+```{r, data_structure, echo = TRUE}
+str(hotdog)
+```
+
+Histograms
+========================================================
+```{r, base_hist_code, eval = FALSE}
+attach(hotdog)
+hist(Beef.Calories)
+hist(Beef.Calories, breaks = 5)
+hist(Beef.Calories, freq = FALSE)
+detach(hotdog)
+```
+
+```{r, base_hist, fig.align='center', fig.width=15, fig.height=6, echo=FALSE}
+par(mfrow = c(1, 3))
+<<base_hist_code>>
+```
+
+Histogram with Density
+========================================================
+```{r, base_hist_more_code, eval = FALSE}
+attach(hotdog)
+hist(Beef.Calories, freq = FALSE)
+lines(density(Beef.Calories), col = "red")
+detach(hotdog)
+```
+
+```{r, base_hist_more, fig.align='center', fig.width=7, fig.height=6, echo=FALSE}
+<<base_hist_more_code>>
+```
+
+Boxplots
+========================================================
+```{r, base_box, fig.align = 'center', fig.width=7, fig.height=5}
+# Specifying a formula
+boxplot(Beef.Calories ~ Day, data = hotdog, 
+        main = "Daily Beef Counts",
+        xlab = "Day", ylab = "Counts")
+```
+
+More Boxplots
+========================================================
+```{r, base_box_more, fig.align = 'center', fig.width=7, fig.height=6}
+# Specifying a data frame
+boxplot(hotdog[c(6:8, 16)], 
+        main = "Daily Calories")
 ```
 
 Let's Make this Plot
 ========================================================
-
-```{r, echo = FALSE}
-hotdog <- data.frame(day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
-                     beef = c(2, 4, 2, 8, 9),
-                     meat = c(4, 2, 1, 3, 10),
-                     poultry = c(6, 7, 3, 1, 0))
-hotdog$day <- factor(hotdog$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
-```
-
 ```{r, endplot, echo = FALSE, fig.align = 'center'}
-# Make final plot
-plot(hotdog$beef, type = "o", col = "red", ylim = c(0, 11), 
-     axes = FALSE, ann = FALSE)
+hd.w1 <- subset(hotdog, hotdog$Week == 1)
+plot(hd.w1$Beef, type = "o", col = "red", ylim = c(0, 20), 
+       axes = FALSE, ann = FALSE)
 title(main = "Isaac's Weekly Hot Dog Consumption", 
-      col.main = "red", font.main = 4)
-lines(hotdog$meat, type = "o", col = "forestgreen", 
+      col.main = "Maroon", font.main = 4)
+lines(hd.w1$Pork, type = "o", col = "forestgreen", 
       pch = 22, lty = 2)
-lines(hotdog$poultry, type = "o", col = "blue", 
+lines(hd.w1$Turkey, type = "o", col = "blue", 
       pch = 23, lty = 3)
-axis(1, at = 1:5, lab = hotdog$day)
+axis(1, at = 1:5, lab = hd.w1$Day)
 title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
-axis(2, las = 1, at = seq(with(hotdog, min(c(beef, meat, poultry))), 
-                          with(hotdog, max(c(beef, meat, poultry))), 2))
+axis(2, las = 1, at = seq(0, 20, 5))
 title(ylab = "Devoured", col.lab = 3, font.lab = 2)
 # Add legend and text
-legend(x = 1, y = with(hotdog, max(c(beef, meat, poultry))), 
-       legend = c("Beef", "Meat", "Poultry"),                  
+legend(x = 4.5, y = 3, 
+       legend = c("Beef", "Pork", "Turkey"),                  
        col = c("red", "forestgreen", "blue"),   
        pch = 21:23, lty = 1:3,                                   
        bty = "n", cex = 0.8                                      
-       )  
-text(x = 3, y = 0.5, "SICK", col = "red")
+)  
+text(x = 3, y = 17, "SICK", col = "tomato4")
 ```
 
 Now with ggplot

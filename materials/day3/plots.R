@@ -1,11 +1,10 @@
 set.seed(83465)
 
-n <- 16 * 5
-hotdog <- data.frame(Week = rep(1:16, each = 5),
-                     Day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
-                     Beef = sample(1:20, 80, replace = TRUE),
-                     Pork = sample(1:20, 80, replace = TRUE),
-                     Turkey = sample(1:20, 80, replace = TRUE))
+n <- 7
+hotdog <- data.frame(Day = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                     Beef = sample(1:20, n, replace = TRUE),
+                     Pork = sample(1:20, n, replace = TRUE),
+                     Turkey = sample(1:20, n, replace = TRUE))
 
 hotdog <- within(hotdog, {
   Turkey.Sodium <- rnorm(n, 821, 30) * Turkey
@@ -34,7 +33,7 @@ hd1 <- read.csv("materials/day3/hotdog.csv")
 
 require(gdata)
 hotdog <- read.xls("materials/day3/hotdog.xlsx", 
-                   pattern = "Week", sheet = "HotDog")
+                   pattern = "Day", sheet = "HotDog")
 
 # order the factor Day
 hotdog$Day <- factor(hotdog$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
