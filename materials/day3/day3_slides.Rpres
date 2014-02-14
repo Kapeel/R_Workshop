@@ -1,0 +1,65 @@
+R Graphics
+========================================================
+author: Isaac Jenkins
+date: February 20, 2014
+
+```{r, echo = FALSE, include = FALSE}
+opts_chunk$set(prompt = TRUE)
+```
+
+Let's Make this Plot
+========================================================
+
+```{r, echo = FALSE}
+hotdog <- data.frame(day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
+                     beef = c(2, 4, 2, 8, 9),
+                     meat = c(4, 2, 1, 3, 10),
+                     poultry = c(6, 7, 3, 1, 0))
+hotdog$day <- factor(hotdog$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
+```
+
+```{r, endplot, echo = FALSE, fig.align = 'center'}
+# Make final plot
+plot(hotdog$beef, type = "o", col = "red", ylim = c(0, 11), 
+     axes = FALSE, ann = FALSE)
+title(main = "Isaac's Weekly Hot Dog Consumption", 
+      col.main = "red", font.main = 4)
+lines(hotdog$meat, type = "o", col = "forestgreen", 
+      pch = 22, lty = 2)
+lines(hotdog$poultry, type = "o", col = "blue", 
+      pch = 23, lty = 3)
+axis(1, at = 1:5, lab = hotdog$day)
+title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+axis(2, las = 1, at = seq(with(hotdog, min(c(beef, meat, poultry))), 
+                          with(hotdog, max(c(beef, meat, poultry))), 2))
+title(ylab = "Devoured", col.lab = 3, font.lab = 2)
+# Add legend and text
+legend(x = 1, y = with(hotdog, max(c(beef, meat, poultry))), 
+       legend = c("Beef", "Meat", "Poultry"),                  
+       col = c("red", "forestgreen", "blue"),   
+       pch = 21:23, lty = 1:3,                                   
+       bty = "n", cex = 0.8                                      
+       )  
+text(x = 3, y = 0.5, "SICK", col = "red")
+```
+
+Now with ggplot
+========================================================
+```{r, gg_endplot, echo = FALSE, fig.align = 'center'}
+require(ggplot2)
+require(reshape2)
+hotdog.long <- melt(hotdog, id = "day",
+                    variable.name = "Ingredient", value.name = "Count")
+ggplot(hotdog.long, aes(x = day, y = Count, color = Ingredient)) +
+  geom_point(aes(shape = Ingredient)) +
+  geom_line(aes(group = Ingredient, linetype = Ingredient)) +
+  geom_text(aes(x = 3, y = 0.5, label = "SICK"), color = "red") +
+  ggtitle("Isaac's Weekly Hot Dog Consumption") +
+  xlab("Days") +
+  ylab("Devoured") +
+  theme(plot.title = element_text(color = "red", face = "italic"),
+        axis.title.x = element_text(color = "steelblue", face = "bold"),
+        axis.title.y = element_text(color = "green", face = "bold"),
+        legend.position = c(.1, .85))
+
+```
