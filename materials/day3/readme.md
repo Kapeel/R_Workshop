@@ -40,31 +40,39 @@ How do we get this into R?
 ========================================================
 ![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/excel.png)
 
-Download the File
+Save Excel File as CSV File
 ========================================================
-- Get it **[here](http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx)**
-- Copy it to your working directory using your preferred method (e.g., file 
-explorer, Terminal, Finder)
+If you want...
+- Get the excel file
+**[here](http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx)**
+- Open in Excel (or Libre Office)
+- Go to File>Save as... and choose the comma separated values (csv) format 
+- Call it **hotdog.csv** and save it in your working directory
+
+Or, Just Download the CSV File
+========================================================
+- Get the csv file
+**[here](http://icj.github.io/R_Workshop/materials/day3/hotdog.csv)**
+- Copy the csv file to your working directory using your preferred method 
+(e.g., file explorer, Terminal, Finder)
 - Or, copy it to your working directory using R (assuming file is in default 
 Downloads folder)
 
 ```r
 # On a MAC (or Linux)
-file.copy(from = "~/Downloads/hotdog.xlsx", to = getwd())
+file.copy(from = "~/Downloads/hotdog.csv", to = getwd())
 # On Windows (change USERNAME and/or drive)
-file.copy(from = "C:/Users/USERNAME/Downloads/hotdog.xlsx", to = getwd())
+file.copy(from = "C:/Users/USERNAME/Downloads/hotdog.csv", to = getwd())
 ```
 
-
-Get the Right R Package
-========================================================
-- Install the **```gdata```** package
-- This package has the **```read.xls()```** function
-- Use the RStudio **Packages** pane
-- Or, try
+- Check if it's there
 
 ```r
-install.packages("gdata")
+file.exists("hotdog.csv")
+```
+
+```
+[1] TRUE
 ```
 
 
@@ -72,18 +80,18 @@ Import the Data
 ========================================================
 
 ```r
-# Read IN an EXCEL file
-myFile <- "hotdog.xlsx"
-require(gdata)
-hd <- read.xls(myFile)
+# Read IN a CSV file
+myFile <- "hotdog.csv"
+hd <- read.csv(myFile)
 ```
 
 
 Import Challenge
 ========================================================
 type: prompt
-1. Open the file **```hotdog.xlsx```** in Excel (or Libre Office, or Google 
-Drive).
+1. If possible, open the file 
+**[hotdog.xlsx](http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx)** 
+in Excel (or Libre Office, or Google Drive).
 2. In R, use ```head(hd)```, ```str(hd)```, and ```tail(hd)``` to see
 if the data resembles what is in the excel file.
 3. What are some of the problems?
@@ -134,20 +142,20 @@ tail(hd)
 ```
 
 ```
-   Isaac.s.Daily.Hot.Dog.Consumption          X   X.1                 X.2
-52                               Fri OscarMayer  Beef                 157
-53                               Fri OscarMayer  Beef                 131
-54                               Fri OscarMayer  Meat                 190
-55                               Fri OscarMayer  Meat                 107
-56                                               Mean 145.444444444444457
-57                                              StDev  29.383390679068008
-                   X.3
-52                 440
-53                 317
-54                 545
-55                 144
-56 424.833333333333314
-57  95.856368574166297
+   Isaac.s.Daily.Hot.Dog.Consumption          X   X.1         X.2
+52                               Fri OscarMayer  Beef         157
+53                               Fri OscarMayer  Beef         131
+54                               Fri OscarMayer  Meat         190
+55                               Fri OscarMayer  Meat         107
+56                                               Mean 145.4444444
+57                                              StDev 29.38339068
+           X.3
+52         440
+53         317
+54         545
+55         144
+56 424.8333333
+57 95.85636857
 ```
 
 
@@ -165,16 +173,15 @@ Import the Data - Second Try
 ========================================================
 
 ```r
-# Read IN an EXCEL file
-hd <- read.xls(myFile, sheet = "HotDog", pattern = "Day", nrows = 54)
+hd <- read.csv(myFile, skip = 1, nrows = 54, header = TRUE)
 ```
 
-- **```sheet=```**
-  - Tells it which sheet to read from
-- **```pattern=```**
-  - Tells it which row to start reading from
+- **```skip=```**
+  - Tells it to skip this many rows
 - **```nrows=```**
   - Tells it how many rows to read in 
+- **```header=```**
+  - Does the first row contain column names?
 
 Import Challenge
 ========================================================
@@ -236,8 +243,8 @@ Band-Aid
 If you could NOT download the file, RUN this now
 
 ```r
-myURL <- "http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx"
-hd <- read.xls(myURL, pattern = "Day", sheet = "HotDog", nrows = 54)
+myURL <- "http://icj.github.io/R_Workshop/materials/day3/hotdog.csv"
+hd <- read.csv(myURL, skip = 1, nrows = 54, header = TRUE)
 hd$Day <- factor(hd$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
 ```
 
@@ -637,9 +644,8 @@ lines(density(hd$Calories), col = "red")
 Histogram Challenge
 ========================================================
 type: prompt
-Plot individual histograms for sodium in the beef, meat, and poultry 
-hot dogs.
-
+Plot histograms for sodium by hot dog type (i.e., one each for beef, meat, and 
+poultry).
 
 **Hint**: subset the data
 
@@ -896,7 +902,7 @@ plot(x = hd2$Freq[hd2$Type == "Beef"],
 ```
 
 
-- **```x=```** Points to plot (actually y's)
+- **```x=```** Points to plot (actually the y values here)
 - **```type=```** what type of plot (see **?plot**)
 - **```col=```** color of points and/or lines
 - **```ylim=```** min and max y-values on y-axis
@@ -929,7 +935,7 @@ lines(x = hd2$Freq[hd2$Type == "Meat"],
 ```
 
 
-- **```x=```** Points to plot (actually y's)
+- **```x=```** Points to plot (actually the y's again)
 - **```type=```** what type of plot (see **?plot**)
 - **```col=```** color of points and/or lines
 - **```pch=```** point symbol
@@ -1256,6 +1262,7 @@ Thank you to...
 - [RStudio People](http://www.rstudio.com)
 - [BIO5 Institute](http://www.bio5.org/)
 - [Southwest Environmental Health Sciences Center](http://swehsc.pharmacy.arizona.edu/)
+- [DataCamp](https://www.datacamp.com/)
 
 
 

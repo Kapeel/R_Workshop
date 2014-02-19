@@ -84,6 +84,29 @@ margin.table(hd.tab, 2) # sum across columns
 detach(hd)
 
 ################################################################################
+# Barplots
+# 1 variable
+hd.tab <- table(hd$Type)
+barplot(hd.tab)
+barplot(hd.tab, horiz = TRUE)
+# 2 variables Stacked
+hd.tab <- table(hd$Type, hd$Day) # second var will be on x-axis
+barplot(hd.tab)
+barplot(hd.tab, col = c("burlywood", "cornflowerblue", "springgreen"))
+legend("topleft", legend = levels(hd$Type), bty = "n",
+       fill = c("burlywood", "cornflowerblue", "springgreen"))
+# 2 variables Beside
+hd.tab <- table(hd$Day, hd$Type)
+barplot(hd.tab, beside = TRUE)
+barplot(hd.tab, beside = TRUE, col = rainbow(5))
+legend("topright", legend = levels(hd$Day), bty = "n", fill = rainbow(5))
+# Challenge: Create a "Beside" barplot with Brand on the x-axis grouped 
+# by Type. Experiment with adding color and a legend (hint: try heat.colors(3))
+hd.tab <- table(hd$Type, hd$Brand)
+barplot(hd.tab, beside = TRUE, col = heat.colors(3))
+legend("topleft", legend = levels(hd$Type), bty = "n", fill = heat.colors(3))
+
+################################################################################
 # Summaries and Advanced Summaries
 summary(hd)
 plot(hd)
@@ -173,29 +196,6 @@ stripchart(Calories ~ Type * Brand, data = hd, method = "jitter", jitter = 0.1)
 stripchart(Calories ~ Brand, data = hd, method = "stack")
 
 ################################################################################
-# Barplots
-# 1 variable
-hd.tab <- table(hd$Type)
-barplot(hd.tab)
-barplot(hd.tab, horiz = TRUE)
-# 2 variables Stacked
-hd.tab <- table(hd$Type, hd$Day) # second var will be on x-axis
-barplot(hd.tab)
-barplot(hd.tab, col = c("burlywood", "cornflowerblue", "springgreen"))
-legend("topleft", legend = levels(hd$Type), bty = "n",
-       fill = c("burlywood", "cornflowerblue", "springgreen"))
-# 2 variables Beside
-hd.tab <- table(hd$Day, hd$Type)
-barplot(hd.tab, beside = TRUE)
-barplot(hd.tab, beside = TRUE, col = rainbow(5))
-legend("topright", legend = levels(hd$Day), bty = "n", fill = rainbow(5))
-# Challenge: Create a "Beside" barplot with Brand on the x-axis grouped 
-# by Type. Experiment with adding color and a legend (hint: try heat.colors(3))
-hd.tab <- table(hd$Type, hd$Brand)
-barplot(hd.tab, beside = TRUE, col = heat.colors(3))
-legend("topleft", legend = levels(hd$Type), bty = "n", fill = heat.colors(3))
-
-################################################################################
 # Scatterplot
 plot(Calories ~ Sodium, data = hd)
 abline(lm(Calories ~ Sodium, data = hd))
@@ -204,34 +204,32 @@ abline(lm(Calories ~ Sodium, data = hd))
 # Custom Plot
 # Sometimes we need to make custom plots
 # Let's make this plot
-hotdog <- with(hd, data.frame(table(Day, Type)))
-attach(hotdog)
-plot(Freq[Type == "Beef"], type = "o", col = "red", ylim = c(0, 10), 
+hd2 <- with(hd, data.frame(table(Day, Type)))
+plot(hd2$Freq[hd2$Type == "Beef"], type = "o", col = "red", ylim = c(0, 10), 
      axes = FALSE, ann = FALSE)
-lines(Freq[Type == "Meat"], type = "o", col = "forestgreen", 
+lines(hd2$Freq[hd2$Type == "Meat"], type = "o", col = "forestgreen", 
       pch = 22, lty = 2)
-lines(Freq[Type == "Poultry"], type = "o", col = "blue", 
+lines(hd2$Freq[hd2$Type == "Poultry"], type = "o", col = "blue", 
       pch = 23, lty = 3)
 title(main = "Isaac's Weekly Hot Dog Consumption", 
       col.main = "Maroon", font.main = 4)
-axis(1, at = 1:5, lab = levels(hotdog$Day))
+axis(1, at = 1:5, lab = levels(hd2$Day))
 title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
 axis(2, las = 1, at = seq(0, 10, 2))
 title(ylab = "Devoured", col.lab = 3, font.lab = 2)
 # Add legend and text
 legend(x = 1, y = 10, 
-       legend = levels(hotdog$Type),                  
+       legend = levels(hd2$Type),                  
        col = c("red", "forestgreen", "blue"),   
        pch = 21:23, lty = 1:3,                                   
        bty = "n", cex = 0.8                                      
 )  
 text(x = 3, y = 0.5, "SICK", col = "tomato4")
-detach(hotdog)
+
 # Challenge: Make this plot
 # Hint
 hd2 <- with(hd, data.frame(table(Day, Brand)))
 attach(hd2)
-
 plot(Freq[Brand == "Nathans"], type = "o", col = "red", ylim = c(0, 10), 
      axes = FALSE, ann = FALSE)
 lines(Freq[Brand == "OscarMayer"], type = "o", col = "forestgreen", 

@@ -1186,36 +1186,47 @@ hljs.initHighlightingOnLoad();
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Download the File</h3>
+<h3>Save Excel File as CSV File</h3>
 <div class="slideContent" >
-<ul>
-<li>Get it <strong><a href="http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx">here</a></strong></li>
-<li>Copy it to your working directory using your preferred method (e.g., file 
-explorer, Terminal, Finder)</li>
-<li>Or, copy it to your working directory using R (assuming file is in default 
-Downloads folder)</li>
-</ul>
+<p>If you want&hellip;</p>
 
-<pre><code class="r"># On a MAC (or Linux)
-file.copy(from = &quot;~/Downloads/hotdog.xlsx&quot;, to = getwd())
-# On Windows (change USERNAME and/or drive)
-file.copy(from = &quot;C:/Users/USERNAME/Downloads/hotdog.xlsx&quot;, to = getwd())
-</code></pre>
+<ul>
+<li>Get the excel file
+<strong><a href="http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx">here</a></strong></li>
+<li>Open in Excel (or Libre Office)</li>
+<li>Go to File&gt;Save as&hellip; and choose the comma separated values (csv) format </li>
+<li>Call it <strong>hotdog.csv</strong> and save it in your working directory</li>
+</ul>
 
 </div>
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Get the Right R Package</h3>
+<h3>Or, Just Download the CSV File</h3>
 <div class="slideContent" >
 <ul>
-<li>Install the <strong><code>gdata</code></strong> package</li>
-<li>This package has the <strong><code>read.xls()</code></strong> function</li>
-<li>Use the RStudio <strong>Packages</strong> pane</li>
-<li>Or, try</li>
+<li>Get the csv file
+<strong><a href="http://icj.github.io/R_Workshop/materials/day3/hotdog.csv">here</a></strong></li>
+<li>Copy the csv file to your working directory using your preferred method 
+(e.g., file explorer, Terminal, Finder)</li>
+<li>Or, copy it to your working directory using R (assuming file is in default 
+Downloads folder)</li>
 </ul>
 
-<pre><code class="r">install.packages(&quot;gdata&quot;)
+<pre><code class="r"># On a MAC (or Linux)
+file.copy(from = &quot;~/Downloads/hotdog.csv&quot;, to = getwd())
+# On Windows (change USERNAME and/or drive)
+file.copy(from = &quot;C:/Users/USERNAME/Downloads/hotdog.csv&quot;, to = getwd())
+</code></pre>
+
+<ul>
+<li>Check if it&#39;s there</li>
+</ul>
+
+<pre><code class="r">file.exists(&quot;hotdog.csv&quot;)
+</code></pre>
+
+<pre><code>[1] TRUE
 </code></pre>
 
 </div>
@@ -1224,10 +1235,9 @@ file.copy(from = &quot;C:/Users/USERNAME/Downloads/hotdog.xlsx&quot;, to = getwd
 <section data-transition="linear" data-transition-speed="default">
 <h3>Import the Data</h3>
 <div class="slideContent" >
-<pre><code class="r"># Read IN an EXCEL file
-myFile &lt;- &quot;hotdog.xlsx&quot;
-require(gdata)
-hd &lt;- read.xls(myFile)
+<pre><code class="r"># Read IN a CSV file
+myFile &lt;- &quot;hotdog.csv&quot;
+hd &lt;- read.csv(myFile)
 </code></pre>
 
 </div>
@@ -1237,8 +1247,9 @@ hd &lt;- read.xls(myFile)
 <h3>Import Challenge</h3>
 <div class="slideContent" >
 <ol>
-<li>Open the file <strong><code>hotdog.xlsx</code></strong> in Excel (or Libre Office, or Google 
-Drive).</li>
+<li>If possible, open the file 
+<strong><a href="http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx">hotdog.xlsx</a></strong> 
+in Excel (or Libre Office, or Google Drive).</li>
 <li>In R, use <code>head(hd)</code>, <code>str(hd)</code>, and <code>tail(hd)</code> to see
 if the data resembles what is in the excel file.</li>
 <li>What are some of the problems?</li>
@@ -1288,20 +1299,20 @@ if the data resembles what is in the excel file.</li>
 <pre><code class="r">tail(hd)
 </code></pre>
 
-<pre><code>   Isaac.s.Daily.Hot.Dog.Consumption          X   X.1                 X.2
-52                               Fri OscarMayer  Beef                 157
-53                               Fri OscarMayer  Beef                 131
-54                               Fri OscarMayer  Meat                 190
-55                               Fri OscarMayer  Meat                 107
-56                                               Mean 145.444444444444457
-57                                              StDev  29.383390679068008
-                   X.3
-52                 440
-53                 317
-54                 545
-55                 144
-56 424.833333333333314
-57  95.856368574166297
+<pre><code>   Isaac.s.Daily.Hot.Dog.Consumption          X   X.1         X.2
+52                               Fri OscarMayer  Beef         157
+53                               Fri OscarMayer  Beef         131
+54                               Fri OscarMayer  Meat         190
+55                               Fri OscarMayer  Meat         107
+56                                               Mean 145.4444444
+57                                              StDev 29.38339068
+           X.3
+52         440
+53         317
+54         545
+55         144
+56 424.8333333
+57 95.85636857
 </code></pre>
 
 </div>
@@ -1331,25 +1342,24 @@ if the data resembles what is in the excel file.</li>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Import the Data - Second Try</h3>
 <div class="slideContent" >
-<pre><code class="r"># Read IN an EXCEL file
-hd &lt;- read.xls(myFile, sheet = &quot;HotDog&quot;, pattern = &quot;Day&quot;, nrows = 54)
+<pre><code class="r">hd &lt;- read.csv(myFile, skip = 1, nrows = 54, header = TRUE)
 </code></pre>
 
 <ul>
-<li><strong><code>sheet=</code></strong>
+<li><strong><code>skip=</code></strong>
 
 <ul>
-<li>Tells it which sheet to read from</li>
-</ul></li>
-<li><strong><code>pattern=</code></strong>
-
-<ul>
-<li>Tells it which row to start reading from</li>
+<li>Tells it to skip this many rows</li>
 </ul></li>
 <li><strong><code>nrows=</code></strong>
 
 <ul>
 <li>Tells it how many rows to read in </li>
+</ul></li>
+<li><strong><code>header=</code></strong>
+
+<ul>
+<li>Does the first row contain column names?</li>
 </ul></li>
 </ul>
 
@@ -1418,8 +1428,8 @@ levels(hd$Day)
 <div class="slideContent" >
 <p>If you could NOT download the file, RUN this now</p>
 
-<pre><code class="r">myURL &lt;- &quot;http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx&quot;
-hd &lt;- read.xls(myURL, pattern = &quot;Day&quot;, sheet = &quot;HotDog&quot;, nrows = 54)
+<pre><code class="r">myURL &lt;- &quot;http://icj.github.io/R_Workshop/materials/day3/hotdog.csv&quot;
+hd &lt;- read.csv(myURL, skip = 1, nrows = 54, header = TRUE)
 hd$Day &lt;- factor(hd$Day, levels = c(&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;))
 </code></pre>
 
@@ -1826,8 +1836,8 @@ lines(density(hd$Calories), col = &quot;red&quot;)
 <section data-state="prompt" data-transition="linear" data-transition-speed="default">
 <h3>Histogram Challenge</h3>
 <div class="slideContent" >
-<p>Plot individual histograms for sodium in the beef, meat, and poultry 
-hot dogs.</p>
+<p>Plot histograms for sodium by hot dog type (i.e., one each for beef, meat, and 
+poultry).</p>
 
 <p><strong>Hint</strong>: subset the data</p>
 
@@ -2097,7 +2107,7 @@ head(hd2)
 </code></pre>
 
 <ul>
-<li><strong><code>x=</code></strong> Points to plot (actually y&#39;s)</li>
+<li><strong><code>x=</code></strong> Points to plot (actually the y values here)</li>
 <li><strong><code>type=</code></strong> what type of plot (see <strong>?plot</strong>)</li>
 <li><strong><code>col=</code></strong> color of points and/or lines</li>
 <li><strong><code>ylim=</code></strong> min and max y-values on y-axis</li>
@@ -2132,7 +2142,7 @@ head(hd2)
 </code></pre>
 
 <ul>
-<li><strong><code>x=</code></strong> Points to plot (actually y&#39;s)</li>
+<li><strong><code>x=</code></strong> Points to plot (actually the y&#39;s again)</li>
 <li><strong><code>type=</code></strong> what type of plot (see <strong>?plot</strong>)</li>
 <li><strong><code>col=</code></strong> color of points and/or lines</li>
 <li><strong><code>pch=</code></strong> point symbol</li>
@@ -2508,6 +2518,7 @@ interactive, introductory R tutorial.</li>
 <li><a href="http://www.rstudio.com">RStudio People</a></li>
 <li><a href="http://www.bio5.org/">BIO5 Institute</a></li>
 <li><a href="http://swehsc.pharmacy.arizona.edu/">Southwest Environmental Health Sciences Center</a></li>
+<li><a href="https://www.datacamp.com/">DataCamp</a></li>
 </ul>
 
 </div>
