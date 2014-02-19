@@ -34,11 +34,11 @@ getwd()
 ```
 
 
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/getwd.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/getwd.png)
 
 How do we get this into R?
 ========================================================
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/excel.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/excel.png)
 
 Download the File
 ========================================================
@@ -328,7 +328,7 @@ margin.table(hd.tab, 2) # sum across columns
 ```
 
 
-Barplots - 1 Variable
+Bar Plots - 1 Variable
 ========================================================
 
 ```r
@@ -341,7 +341,7 @@ barplot(hd.tab, horiz = TRUE)
 <img src="day3_slides-figure/bar1_plot.png" title="plot of chunk bar1_plot" alt="plot of chunk bar1_plot" style="display: block; margin: auto;" />
 
 
-Barplots - 2 Variables "Stacked"
+Bar Plots - 2 Variables "Stacked"
 ========================================================
 
 ```r
@@ -356,7 +356,7 @@ legend("topleft", legend = levels(hd$Type), bty = "n",
 <img src="day3_slides-figure/bar2_plot.png" title="plot of chunk bar2_plot" alt="plot of chunk bar2_plot" style="display: block; margin: auto;" />
 
 
-Barplots - 2 Variables "Beside"
+Bar Plots - 2 Variables "Beside"
 ========================================================
 
 ```r
@@ -370,13 +370,13 @@ legend("topright", legend = levels(hd$Day), bty = "n", fill = rainbow(5))
 <img src="day3_slides-figure/bar3_plot.png" title="plot of chunk bar3_plot" alt="plot of chunk bar3_plot" style="display: block; margin: auto;" />
 
 
-Barplot Challenge
+Bar Plot Challenge
 ========================================================
 type: prompt
-1. Create a "Beside" barplot with Brand on the x-axis grouped by Type. 
+1. Create a "Beside" bar plot with Brand on the x-axis grouped by Type. 
 2. Experiment with adding color and a legend (hint: try ```heat.colors(3)```)
 
-Barplot Challenge Solution
+Bar plot Challenge Solution
 ========================================================
 type: prompt
 
@@ -665,7 +665,7 @@ with(subset(hd, hd$Type == "Poultry"), hist(Sodium, main = "Poultry"))
 <img src="day3_slides-figure/ch5_sol4.png" title="plot of chunk ch5_sol4" alt="plot of chunk ch5_sol4" style="display: block; margin: auto;" />
 
 
-Boxplots - Single Vector
+Box Plots - Single Vector
 ========================================================
 
 ```r
@@ -686,7 +686,7 @@ boxplot(hd$Calories, xlab = "Calories", main = "All Hot Dogs")
 <img src="day3_slides-figure/base_box2.png" title="plot of chunk base_box2" alt="plot of chunk base_box2" style="display: block; margin: auto;" />
 
 
-Boxplots - Continuous Variable and a Factor
+Box Plots - Continuous Variable and a Factor
 ========================================================
 
 ```r
@@ -697,9 +697,8 @@ boxplot(Calories ~ Type, data = hd, main = "Calories by Type",
 <img src="day3_slides-figure/box_2v1.png" title="plot of chunk box_2v1" alt="plot of chunk box_2v1" style="display: block; margin: auto;" />
 
 
-Boxplots - Continuous Variable and a Factor
+Box Plots - Continuous Variable and a Factor (Horizontal)
 ========================================================
-Horizontal version
 
 ```r
 boxplot(Calories ~ Type, data = hd, main = "Calories by Type", 
@@ -710,7 +709,7 @@ boxplot(Calories ~ Type, data = hd, main = "Calories by Type",
 <img src="day3_slides-figure/box_2v2.png" title="plot of chunk box_2v2" alt="plot of chunk box_2v2" style="display: block; margin: auto;" />
 
 
-Boxplots - Continuous Variable and 2 Factors
+Box Plots - Continuous Variable and 2 Factors
 ========================================================
 
 ```r
@@ -721,9 +720,8 @@ boxplot(Calories ~ Brand * Type, data = hd, main = "Calories",
 <img src="day3_slides-figure/box_2v3.png" title="plot of chunk box_2v3" alt="plot of chunk box_2v3" style="display: block; margin: auto;" />
 
 
-Boxplots - Continuous Variable and 2 Factors
+Box Plots - Continuous Variable and 2 Factors (with Color)
 ========================================================
-Add some color
 
 ```r
 boxplot(Calories ~ Brand * Type, data = hd, main = "Calories", 
@@ -733,7 +731,7 @@ boxplot(Calories ~ Brand * Type, data = hd, main = "Calories",
 <img src="day3_slides-figure/box_2v4.png" title="plot of chunk box_2v4" alt="plot of chunk box_2v4" style="display: block; margin: auto;" />
 
 
-Boxplots - Data Frames
+Box Plots - Data Frames
 ========================================================
 
 ```r
@@ -753,10 +751,10 @@ boxplot(hd[4:5])
 <img src="day3_slides-figure/box_2v6.png" title="plot of chunk box_2v6" alt="plot of chunk box_2v6" style="display: block; margin: auto;" />
 
 
-Boxplot Challenge
+Box Plot Challenge
 ========================================================
 type: prompt
-Create a boxplot of **Sodium** by **Type**. Include the following:
+Create a box plot of **Sodium** by **Type**. Include the following:
 
 1. A main title
 2. Custom x and y axes labels
@@ -766,7 +764,7 @@ Create a boxplot of **Sodium** by **Type**. Include the following:
 More colors available 
 [here](http://research.stowers-institute.org/efg/R/Color/Chart/ColorChart.pdf)
 
-Boxplot Challenge Solution
+Box Plot Challenge Solution
 ========================================================
 type: prompt
 
@@ -780,9 +778,9 @@ boxplot(Sodium ~  Type, data = hd, horizontal = TRUE,
 <img src="day3_slides-figure/ch6_sol.png" title="plot of chunk ch6_sol" alt="plot of chunk ch6_sol" style="display: block; margin: auto;" />
 
 
-Stripcharts
+Strip Charts
 ========================================================
-Stripcharts are sometimes more useful than boxplots (especially when the 
+Strip charts are sometimes more useful than box plots (especially when the 
 sample size is small).
 
 
@@ -795,7 +793,7 @@ stripchart(Calories ~ Type, data = hd)
 <img src="day3_slides-figure/strip1_plot.png" title="plot of chunk strip1_plot" alt="plot of chunk strip1_plot" style="display: block; margin: auto;" />
 
 
-More Stripcharts
+More Strip Charts
 ========================================================
 
 ```r
@@ -819,7 +817,7 @@ axis(2, at = 1:6, labels = y.ticks, las = 2)
 <img src="day3_slides-figure/strip3.png" title="plot of chunk strip3" alt="plot of chunk strip3" style="display: block; margin: auto;" />
 
 
-Scatterplots
+Scatter Plots
 ========================================================
 
 ```r
@@ -1093,9 +1091,38 @@ text(x = 3, y = 0.5, lab = "SICK", col = "tomato4")
 - **```lab=```** text to be written
 - **```col=```** color of text
 
+The Final Plot's Code
+========================================================
+
+```r
+plot(x = hd2$Freq[hd2$Type == "Beef"], 
+     type = "o", col = "red", ylim = c(0, 10), 
+     axes = FALSE, ann = FALSE)
+lines(x = hd2$Freq[hd2$Type == "Meat"], 
+      type = "o", col = "forestgreen", 
+      pch = 22, lty = 2)
+lines(x = hd2$Freq[hd2$Type == "Poultry"], 
+      type = "o", col = "blue", 
+      pch = 23, lty = 3)
+title(main = "Isaac's Weekly Hot Dog Consumption", 
+      col.main = "maroon", font.main = 4)
+axis(side = 1, at = 1:5, lab = levels(hd2$Day))
+title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+axis(2, las = 1, at = seq(0, 10, 2))
+title(ylab = "Devoured", col.lab = 3, font.lab = 2)
+legend(x = 1, y = 10, 
+       legend = levels(hd2$Type),                  
+       col = c("red", "forestgreen", "blue"),   
+       pch = 21:23, lty = 1:3,                                   
+       bty = "n", cex = 0.8) 
+text(x = 3, y = 0.5, lab = "SICK", col = "tomato4")
+```
+
+
 The Final Plot
 ========================================================
-<img src="day3_slides-figure/final.png" title="plot of chunk final" alt="plot of chunk final" style="display: block; margin: auto;" />
+
+<img src="day3_slides-figure/final2.png" title="plot of chunk final2" alt="plot of chunk final2" style="display: block; margin: auto;" />
 
 
 Saving a Plot

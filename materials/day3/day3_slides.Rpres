@@ -32,11 +32,11 @@ getwd()
 "/Users/isaac/r_ws_day3"
 ```
 
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/getwd.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/getwd.png)
 
 How do we get this into R?
 ========================================================
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/excel.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/excel.png)
 
 Download the File
 ========================================================
@@ -201,7 +201,7 @@ margin.table(hd.tab, 1) # sum across rows
 margin.table(hd.tab, 2) # sum across columns
 ```
 
-Barplots - 1 Variable
+Bar Plots - 1 Variable
 ========================================================
 ```{r, bar1, eval = FALSE}
 hd.tab <- table(hd$Type)
@@ -214,7 +214,7 @@ par(mfrow = c(1, 2))
 <<bar1>>
 ```
 
-Barplots - 2 Variables "Stacked"
+Bar Plots - 2 Variables "Stacked"
 ========================================================
 ```{r, bar2, eval = FALSE}
 hd.tab <- table(hd$Type, hd$Day)
@@ -229,7 +229,7 @@ par(mfrow = c(1, 2))
 <<bar2>>
 ```
 
-Barplots - 2 Variables "Beside"
+Bar Plots - 2 Variables "Beside"
 ========================================================
 ```{r, bar3, eval = FALSE}
 hd.tab <- table(hd$Day, hd$Type)
@@ -243,13 +243,13 @@ par(mfrow = c(1, 2))
 <<bar3>>
 ```
 
-Barplot Challenge
+Bar Plot Challenge
 ========================================================
 type: prompt
-1. Create a "Beside" barplot with Brand on the x-axis grouped by Type. 
+1. Create a "Beside" bar plot with Brand on the x-axis grouped by Type. 
 2. Experiment with adding color and a legend (hint: try ```heat.colors(3)```)
 
-Barplot Challenge Solution
+Bar plot Challenge Solution
 ========================================================
 type: prompt
 ```{r, bar_ch_sol, fig.align = 'center'}
@@ -388,7 +388,7 @@ par(mfrow = c(1, 2))
 <<ch5_sol3>>
 ```
 
-Boxplots - Single Vector
+Box Plots - Single Vector
 ========================================================
 ```{r, base_box1, fig.align = 'center'}
 # Specifying a vector
@@ -401,38 +401,36 @@ boxplot(hd$Calories)
 boxplot(hd$Calories, xlab = "Calories", main = "All Hot Dogs")
 ```
 
-Boxplots - Continuous Variable and a Factor
+Box Plots - Continuous Variable and a Factor
 ========================================================
 ```{r, box_2v1, fig.align = 'center'}
 boxplot(Calories ~ Type, data = hd, main = "Calories by Type", 
         xlab = "Hot Dog Type", ylab = "Calories")
 ```
 
-Boxplots - Continuous Variable and a Factor
+Box Plots - Continuous Variable and a Factor (Horizontal)
 ========================================================
-Horizontal version
 ```{r, box_2v2, fig.align = 'center'}
 boxplot(Calories ~ Type, data = hd, main = "Calories by Type", 
         ylab = "Hot Dog Type", xlab = "Calories", 
         horizontal = TRUE)
 ```
 
-Boxplots - Continuous Variable and 2 Factors
+Box Plots - Continuous Variable and 2 Factors
 ========================================================
 ```{r, box_2v3, fig.align = 'center', fig.width=12}
 boxplot(Calories ~ Brand * Type, data = hd, main = "Calories", 
         xlab = "Brand and Type")
 ```
 
-Boxplots - Continuous Variable and 2 Factors
+Box Plots - Continuous Variable and 2 Factors (with Color)
 ========================================================
-Add some color
 ```{r, box_2v4, fig.align = 'center', fig.width=12}
 boxplot(Calories ~ Brand * Type, data = hd, main = "Calories", 
         xlab = "Brand and Type", col = c("green", "red"))
 ```
 
-Boxplots - Data Frames
+Box Plots - Data Frames
 ========================================================
 ```{r, box_2v5, fig.align = 'center'}
 boxplot(hd)
@@ -444,10 +442,10 @@ boxplot(hd)
 boxplot(hd[4:5])
 ```
 
-Boxplot Challenge
+Box Plot Challenge
 ========================================================
 type: prompt
-Create a boxplot of **Sodium** by **Type**. Include the following:
+Create a box plot of **Sodium** by **Type**. Include the following:
 
 1. A main title
 2. Custom x and y axes labels
@@ -457,7 +455,7 @@ Create a boxplot of **Sodium** by **Type**. Include the following:
 More colors available 
 [here](http://research.stowers-institute.org/efg/R/Color/Chart/ColorChart.pdf)
 
-Boxplot Challenge Solution
+Box Plot Challenge Solution
 ========================================================
 type: prompt
 
@@ -467,9 +465,9 @@ boxplot(Sodium ~  Type, data = hd, horizontal = TRUE,
         col = c("burlywood", "cornflowerblue", "springgreen"))
 ```
 
-Stripcharts
+Strip Charts
 ========================================================
-Stripcharts are sometimes more useful than boxplots (especially when the 
+Strip charts are sometimes more useful than box plots (especially when the 
 sample size is small).
 
 ```{r, strip1, eval = FALSE}
@@ -482,7 +480,7 @@ par(mfrow = c(1, 2))
 <<strip1>>
 ```
 
-More Stripcharts
+More Strip Charts
 ========================================================
 ```{r, strip2, eval = FALSE}
 stripchart(Calories ~ Type * Brand, data = hd)
@@ -491,6 +489,7 @@ stripchart(Calories ~ Type * Brand, data = hd, method = "jitter", jitter = 0.1)
 
 ```{r, strip2_plot, echo = FALSE, fig.align = 'center', fig.width = 12, fig.height = 7}
 par(mfrow = c(1, 2))
+set.seed(235) # for jitter in stripchart
 <<strip2>>
 ```
 
@@ -502,7 +501,7 @@ stripchart(Calories ~ Type * Brand, data = hd, yaxt = "n")
 axis(2, at = 1:6, labels = y.ticks, las = 2)
 ```
 
-Scatterplots
+Scatter Plots
 ========================================================
 ```{r, scatter, fig.align = 'center'}
 plot(Calories ~ Sodium, data = hd)
@@ -753,10 +752,17 @@ Step 9 - Add Custom Text
 - **```lab=```** text to be written
 - **```col=```** color of text
 
+The Final Plot's Code
+========================================================
+```{r, final1, eval = FALSE}
+<<text_b>>
+```
+
 The Final Plot
 ========================================================
-```{r, final, echo = FALSE, fig.align = 'center'}
-<<endplot>>
+
+```{r, final2, echo = FALSE, fig.align = 'center'}
+<<text_b>>
 ```
 
 Saving a Plot
@@ -888,6 +894,8 @@ Thank you to...
 ```{r, readme, eval = FALSE, include = FALSE, echo = FALSE}
 # run to get readme from slide markdown
 # not to be run when slides compile
-file.copy("materials/day3/day3_slides.md", "materials/day3/readme.md")
+file.copy("materials/day3/day3_slides.md", 
+          "materials/day3/readme.md", 
+          overwrite = TRUE)
 ```
 
