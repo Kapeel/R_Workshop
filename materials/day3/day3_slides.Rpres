@@ -13,7 +13,7 @@ Workshop Objectives
 - Read an Excel file into R
 - Summarize the data **numerically**
 - Summarize the data **graphically**
-- Explore the **```ggplot2```** package
+- Abuse the **Base** plotting system
 
 Create an RStudio Project
 ========================================================
@@ -32,16 +32,18 @@ getwd()
 "/Users/isaac/r_ws_day3"
 ```
 
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/getwd.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/getwd.png)
 
 How do we get this into R?
 ========================================================
-![Alt text](http://icj.github.io/R_Workshop/materials/day3/excel.png)
+![Alt text](http://icj.github.io/R_Workshop/materials/day3/day3_slides-figure/excel.png)
 
 Download the File
 ========================================================
 - Get it **[here](http://icj.github.io/R_Workshop/materials/day3/hotdog.xlsx)**
-- Copy it to your working directory using R (assuming file is in default 
+- Copy it to your working directory using your preferred method (e.g., file 
+explorer, Terminal, Finder)
+- Or, copy it to your working directory using R (assuming file is in default 
 Downloads folder)
 ```{r, copy_data, eval = FALSE}
 # On a MAC (or Linux)
@@ -49,13 +51,11 @@ file.copy(from = "~/Downloads/hotdog.xlsx", to = getwd())
 # On Windows (change USERNAME and/or drive)
 file.copy(from = "C:/Users/USERNAME/Downloads/hotdog.xlsx", to = getwd())
 ```
-- Or, copy it using your preferred method (e.g., file explorer, Terminal, 
-Finder)
 
 Get the Right R Package
 ========================================================
 - Install the **```gdata```** package
-- We need the **```read.xls()```** function
+- This package has the **```read.xls()```** function
 - Use the RStudio **Packages** pane
 - Or, try
 ```{r, installpack, eval = FALSE}
@@ -71,37 +71,37 @@ require(gdata)
 hd <- read.xls(myFile)
 ```
 
-Challenge 1
+Import Challenge
 ========================================================
 type: prompt
 1. Open the file **```hotdog.xlsx```** in Excel (or Libre Office, or Google 
 Drive).
-2. Use ```head(hd)```, ```str(hd)```, and ```tail(hd)``` to see
-if the data read in correctly.
+2. In R, use ```head(hd)```, ```str(hd)```, and ```tail(hd)``` to see
+if the data resembles what is in the excel file.
 3. What are some of the problems?
 
-Challenge 1 Solutions
+Import Challenge Solutions
 ========================================================
 type: prompt
 ```{r, bad_read1_head}
 head(hd)
 ```
 
-Challenge 1 Solutions
+Import Challenge Solutions
 ========================================================
 type: prompt
 ```{r, bad_read1_str}
 str(hd)
 ```
 
-Challenge 1 Solutions
+Import Challenge Solutions
 ========================================================
 type: prompt
 ```{r, bad_read1_tail}
 tail(hd)
 ```
 
-Challenge 1 Solutions
+Import Challenge Solutions
 ========================================================
 type: prompt
 Problems
@@ -124,15 +124,16 @@ hd <- read.xls(myFile, sheet = "HotDog", pattern = "Day", nrows = 54)
 - **```nrows=```**
   - Tells it how many rows to read in 
 
-Challenge 2
+Import Challenge
 ========================================================
 type: prompt
 1. Confirm that the data was read in correctly.
 2. Any other concerns?
 
-Challenge 2 Solution
+Import Challenge Solution
 ========================================================
 type: prompt
+The **```Day```** factor is not ordered meaningfully.
 ```{r, good_read}
 str(hd)
 levels(hd$Day)
@@ -140,7 +141,7 @@ levels(hd$Day)
 
 Fix Day Factor
 ========================================================
-Want the factor **```Day```** to be in meaninful order.
+Want the factor **```Day```** to be in logical order.
 ```{r, day_factor}
 levels(hd$Day)
 hd$Day <- factor(hd$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
@@ -171,13 +172,13 @@ Summarizing Frequencies - 3 Factors
 table(hd$Type, hd$Day, hd$Brand)
 ```
 
-Challenge 3
+Table Challenge
 ========================================================
 type: prompt
 Run the following commands and comment on what they are doing.
 ```{r, ch2, eval = FALSE}
-hd.tab <- table(hd$Day, hd$Brand) # This stores the table
-hd.tab # This prints the table
+hd.tab <- table(hd$Day, hd$Brand) # This stores the table in hd.tab
+hd.tab # This prints the table to the screen
 prop.table(hd.tab) # This ...
 prop.table(hd.tab, 1) # This ...
 prop.table(hd.tab, 2) # This ...
@@ -186,18 +187,75 @@ margin.table(hd.tab, 1) # This ...
 margin.table(hd.tab, 2) # This ...
 ```
 
-Challenge 3 Solutions
+Table Challenge Solutions
 ========================================================
 type: prompt
 ```{r, ch2_sol, eval = FALSE}
-hd.tab <- table(hd$Day, hd$Brand) # This stores the table
-hd.tab # This prints the table
+hd.tab <- table(hd$Day, hd$Brand) # This stores the table in hd.tab
+hd.tab # This prints the table to the screen
 prop.table(hd.tab) # cell percentages
 prop.table(hd.tab, 1) # row percentages
 prop.table(hd.tab, 2) # column percentages
 margin.table(hd.tab) # sum all cells
 margin.table(hd.tab, 1) # sum across rows
 margin.table(hd.tab, 2) # sum across columns
+```
+
+Barplots - 1 Variable
+========================================================
+```{r, bar1, eval = FALSE}
+hd.tab <- table(hd$Type)
+barplot(hd.tab)
+barplot(hd.tab, horiz = TRUE)
+```
+
+```{r, bar1_plot, echo = FALSE, fig.align = 'center', fig.width = 12, fig.height = 7}
+par(mfrow = c(1, 2))
+<<bar1>>
+```
+
+Barplots - 2 Variables "Stacked"
+========================================================
+```{r, bar2, eval = FALSE}
+hd.tab <- table(hd$Type, hd$Day)
+barplot(hd.tab)
+barplot(hd.tab, col = c("burlywood", "cornflowerblue", "springgreen"))
+legend("topleft", legend = levels(hd$Type), bty = "n",
+       fill = c("burlywood", "cornflowerblue", "springgreen"))
+```
+
+```{r, bar2_plot, echo = FALSE, fig.align = 'center', fig.width = 12, fig.height = 7}
+par(mfrow = c(1, 2))
+<<bar2>>
+```
+
+Barplots - 2 Variables "Beside"
+========================================================
+```{r, bar3, eval = FALSE}
+hd.tab <- table(hd$Day, hd$Type)
+barplot(hd.tab, beside = TRUE)
+barplot(hd.tab, beside = TRUE, col = rainbow(5))
+legend("topright", legend = levels(hd$Day), bty = "n", fill = rainbow(5))
+```
+
+```{r, bar3_plot, echo = FALSE, fig.align = 'center', fig.width = 12, fig.height = 7}
+par(mfrow = c(1, 2))
+<<bar3>>
+```
+
+Barplot Challenge
+========================================================
+type: prompt
+1. Create a "Beside" barplot with Brand on the x-axis grouped by Type. 
+2. Experiment with adding color and a legend (hint: try ```heat.colors(3)```)
+
+Barplot Challenge Solution
+========================================================
+type: prompt
+```{r, bar_ch_sol, fig.align = 'center'}
+hd.tab <- table(hd$Type, hd$Brand)
+barplot(hd.tab, beside = TRUE, col = heat.colors(3))
+legend("topleft", legend = levels(hd$Type), bty = "n", fill = heat.colors(3))
 ```
 
 Summarize with Basic Functions
@@ -222,10 +280,6 @@ pairs.panels(hd)
 
 Summarize with Hmisc
 ========================================================
-```{r, install_hmisc, eval = FALSE}
-# Install package if needed
-install.packages("Hmisc")
-```
 ```{r, summ_hmisc}
 require(Hmisc)
 describe(hd)
@@ -250,7 +304,7 @@ hd %.%
 See an excellent ```dplyr``` tutorial
 [here](http://cran.r-project.org/web/packages/dplyr/vignettes/introduction.html)
 
-Challenge 4
+dplyr Challenge
 ========================================================
 type: prompt
 Use **```dplyr```** to summarize the n, mean, standard deviation and standard 
@@ -258,7 +312,7 @@ error of hot dog sodium by **Brand**
 
 **Bonus:** Summarize by **Brand** and **Type**
 
-Challenge 4 Solution
+dplyr Challenge Solution
 ========================================================
 type: prompt
 ```{r, ch4_1}
@@ -270,7 +324,7 @@ hd %.%
             se.sod = sd.sod / sqrt(n))
 ```
 
-Challenge 4 Bonus Solution
+dplyr Challenge Bonus Solution
 ========================================================
 type: prompt
 ```{r, ch4_2}
@@ -287,13 +341,13 @@ Histograms
 ========================================================
 ```{r, base_hist1, fig.align = 'center', fig.width = 3, fig.height = 3}
 hist(hd$Calories)
-with(hd, hist(Calories))
+with(hd, hist(Calories, breaks = 10))
 ```
 
 ***
 
 ```{r, base_hist2, fig.align = 'center', fig.width = 3, fig.height = 3}
-with(hd, hist(Calories, breaks = 10))
+with(hd, hist(Calories))
 with(hd, hist(Calories, freq = FALSE))
 ```
 
@@ -304,12 +358,16 @@ with(hd, hist(Calories, freq = FALSE))
 lines(density(hd$Calories), col = "red")
 ```
 
-Challenge 5
+Histogram Challenge
 ========================================================
 type: prompt
-Plot separate histograms for beef, meat, and poultry sodium
+Plot individual histograms for sodium in the beef, meat, and poultry 
+hot dogs.
 
-Challenge 5 Solutions
+
+**Hint**: subset the data
+
+Histogram Challenge Solutions
 ========================================================
 type: prompt
 ```{r, ch5_sol1, eval = FALSE}
@@ -386,16 +444,20 @@ boxplot(hd)
 boxplot(hd[4:5])
 ```
 
-Challenge 6
+Boxplot Challenge
 ========================================================
 type: prompt
-Create a horizontal boxplot of Sodium by Type. Differ the hot dog types by 
-color and include a main title and custom x and y axes labels.
+Create a boxplot of **Sodium** by **Type**. Include the following:
+
+1. A main title
+2. Custom x and y axes labels
+3. Make it horizontal
+4. Different colors for each hot dog type
 
 More colors available 
-[here](http://sape.inf.usi.ch/quick-reference/ggplot2/colour)
+[here](http://research.stowers-institute.org/efg/R/Color/Chart/ColorChart.pdf)
 
-Challenge 6 Solution
+Boxplot Challenge Solution
 ========================================================
 type: prompt
 
@@ -405,53 +467,427 @@ boxplot(Sodium ~  Type, data = hd, horizontal = TRUE,
         col = c("burlywood", "cornflowerblue", "springgreen"))
 ```
 
-Stripchart
+Stripcharts
 ========================================================
+Stripcharts are sometimes more useful than boxplots (especially when the 
+sample size is small).
+
+```{r, strip1, eval = FALSE}
+with(hd, stripchart(Calories))
+stripchart(Calories ~ Type, data = hd)
+```
+
+```{r, strip1_plot, echo = FALSE, fig.align = 'center', fig.width = 10, fig.height = 6}
+par(mfrow = c(1, 2))
+<<strip1>>
+```
+
+More Stripcharts
+========================================================
+```{r, strip2, eval = FALSE}
+stripchart(Calories ~ Type * Brand, data = hd)
+stripchart(Calories ~ Type * Brand, data = hd, method = "jitter", jitter = 0.1)
+```
+
+```{r, strip2_plot, echo = FALSE, fig.align = 'center', fig.width = 12, fig.height = 7}
+par(mfrow = c(1, 2))
+<<strip2>>
+```
+
+Fix Tick Labels
+========================================================
+```{r, strip3, fig.align = 'center'}
+y.ticks <- c("B.N", "M.N", "P.N", "B.OM", "M.OM", "P.OM")
+stripchart(Calories ~ Type * Brand, data = hd, yaxt = "n")
+axis(2, at = 1:6, labels = y.ticks, las = 2)
+```
+
+Scatterplots
+========================================================
+```{r, scatter, fig.align = 'center'}
+plot(Calories ~ Sodium, data = hd)
+abline(lm(Calories ~ Sodium, data = hd))
+```
 
 
-Let's Make this Plot
+Custom Plots
 ========================================================
+Let's make this plot
+
 ```{r, endplot, echo = FALSE, fig.align = 'center'}
-plot(hotdog$Beef, type = "o", col = "red", ylim = c(0, 20), 
-       axes = FALSE, ann = FALSE)
-title(main = "Isaac's Weekly Hot Dog Consumption", 
-      col.main = "Maroon", font.main = 4)
-lines(hotdog$Pork, type = "o", col = "forestgreen", 
+hd2 <- with(hd, data.frame(table(Day, Type)))
+plot(x = hd2$Freq[hd2$Type == "Beef"], type = "o", col = "red", ylim = c(0, 10), 
+     axes = FALSE, ann = FALSE)
+lines(x = hd2$Freq[hd2$Type == "Meat"], type = "o", col = "forestgreen", 
       pch = 22, lty = 2)
-lines(hotdog$Turkey, type = "o", col = "blue", 
+lines(x = hd2$Freq[hd2$Type == "Poultry"], type = "o", col = "blue", 
       pch = 23, lty = 3)
-axis(1, at = 1:7, lab = hotdog$Day)
+title(main = "Isaac's Weekly Hot Dog Consumption", 
+      col.main = "maroon", font.main = 4)
+axis(1, at = 1:5, lab = levels(hd2$Day))
 title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
-axis(2, las = 1, at = seq(0, 20, 5))
+axis(2, las = 1, at = seq(0, 10, 2))
 title(ylab = "Devoured", col.lab = 3, font.lab = 2)
 # Add legend and text
-legend(x = 1, y = 3, 
-       legend = c("Beef", "Pork", "Turkey"),                  
+legend(x = 1, y = 10, 
+       legend = levels(hd2$Type),                  
        col = c("red", "forestgreen", "blue"),   
        pch = 21:23, lty = 1:3,                                   
        bty = "n", cex = 0.8                                      
 )  
-text(x = c(3, 4), y = 13, "SICK", col = "tomato4")
+text(x = 3, y = 0.5, "SICK", col = "tomato4")
 ```
 
-Now with ggplot
+Step 1 - Create the Data
 ========================================================
-```{r, gg_endplot, echo = FALSE, fig.align = 'center'}
+We need frequency data
+
+```{r, get_freq}
+with(hd, table(Day, Type))
+hd2 <- data.frame(with(hd, table(Day, Type)))
+head(hd2)
+```
+
+Step 2 - Initialize the Plot
+========================================================
+We use **```plot()```** to open a new plotting window
+
+```{r, init_a, fig.align = 'center'}
+plot(x = hd2$Freq[hd2$Type == "Beef"], 
+     type = "o", col = "red", ylim = c(0, 10), 
+     axes = FALSE, ann = FALSE)
+```
+
+Step 2 - Initialize the Plot
+========================================================
+
+```{r, init_b, eval = FALSE}
+<<init_a>>
+```
+
+- **```x=```** Points to plot (actually y's)
+- **```type=```** what type of plot (see **?plot**)
+- **```col=```** color of points and/or lines
+- **```ylim=```** min and max y-values on y-axis
+- **```axes=```** include axes?
+- **```ann=```** include annotations?
+
+Step 3 - Add a Layer
+========================================================
+We use **```lines()```** to add a layer to the current plot
+
+```{r, lines1_a, eval = FALSE}
+lines(x = hd2$Freq[hd2$Type == "Meat"], 
+      type = "o", col = "forestgreen", 
+      pch = 22, lty = 2)
+```
+
+```{r, lines1_b, echo = FALSE, fig.align = 'center'}
+<<init_a>>
+lines(x = hd2$Freq[hd2$Type == "Meat"], 
+      type = "o", col = "forestgreen", 
+      pch = 22, lty = 2)
+```
+
+Step 3 - Add a Layer
+========================================================
+
+```{r, lines1_c, eval = FALSE}
+<<lines1_a>>
+```
+
+- **```x=```** Points to plot (actually y's)
+- **```type=```** what type of plot (see **?plot**)
+- **```col=```** color of points and/or lines
+- **```pch=```** point symbol
+- **```lty=```** line type
+
+Step 4 - Add another Layer
+========================================================
+
+```{r, lines2_a, eval = FALSE}
+lines(x = hd2$Freq[hd2$Type == "Poultry"], 
+      type = "o", col = "blue", 
+      pch = 23, lty = 3)
+```
+
+```{r, lines2_b, echo = FALSE, fig.align = 'center'}
+<<lines1_b>>
+lines(x = hd2$Freq[hd2$Type == "Poultry"], 
+      type = "o", col = "blue", 
+      pch = 23, lty = 3)
+```
+
+Step 5 - Add a Main Title
+========================================================
+We use **```title()```** to add labels to the current plot
+
+```{r, title_a, eval = FALSE}
+title(main = "Isaac's Weekly Hot Dog Consumption", 
+      col.main = "maroon", font.main = 4)
+```
+
+```{r, title_b, echo = FALSE, fig.align = 'center'}
+<<lines2_b>>
+title(main = "Isaac's Weekly Hot Dog Consumption", 
+      col.main = "maroon", font.main = 4)
+```
+
+Step 5 - Add a Main Title
+========================================================
+
+```{r, title_c, eval = FALSE}
+<<title_a>>
+```
+
+- **```main=```** Title text
+- **```col.main=```** color for main title
+- **```font.main```** font style for main title
+  - 1 = plain text
+  - 2 = bold
+  - 3 = italic
+  - 4 = bold and italic
+  
+Step 6 - Customize the X-axis
+========================================================
+We use **```axis()```** to specify the axis ticks on the current plot
+
+```{r, xaxis_a, eval = FALSE}
+axis(side = 1, at = 1:5, lab = levels(hd2$Day))
+title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+```
+
+```{r, xaxis_b, echo = FALSE, fig.align = 'center'}
+<<title_b>>
+axis(side = 1, at = 1:5, lab = levels(hd2$Day))
+title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+```
+
+Step 6 - Customize the X-axis
+========================================================
+
+```{r, xaxis_c, eval = FALSE}
+<<xaxis_a>>
+```
+
+- **```axis()```**
+  - **```side=```** side of plot (1=below, 2=left, 3=above and 4=right)
+  - **```at=```** points where tick marks are drawn
+  - **```lab=```** custom tick labels
+- **```title()```** font style for main title
+  - **```xlab=```** title for x-axis
+  - **```col.lab=```** color for x-axis title
+  - **```font.lab=```** font style for x-axis title
+  
+Step 7 - Customize the Y-axis
+========================================================
+
+```{r, yaxis_a, eval = FALSE}
+axis(side = 2, las = 1, at = seq(0, 10, 2))
+title(ylab = "Devoured", col.lab = 3, font.lab = 2)
+```
+
+```{r, yaxis_b, echo = FALSE, fig.align = 'center'}
+<<xaxis_b>>
+axis(2, las = 1, at = seq(0, 10, 2))
+title(ylab = "Devoured", col.lab = 3, font.lab = 2)
+```
+
+Step 8 - Add a Legend
+========================================================
+We use **```legend()```** to add a legend to the current plot
+
+```{r, leg_a, eval = FALSE}
+legend(x = 1, y = 10, 
+       legend = levels(hd2$Type),                  
+       col = c("red", "forestgreen", "blue"),   
+       pch = 21:23, lty = 1:3,                                   
+       bty = "n", cex = 0.8) 
+```
+
+***
+
+```{r, leg_b, echo = FALSE, fig.align = 'center'}
+<<yaxis_b>>
+legend(x = 1, y = 10, 
+       legend = levels(hd2$Type),                  
+       col = c("red", "forestgreen", "blue"),   
+       pch = 21:23, lty = 1:3,                                   
+       bty = "n", cex = 0.8) 
+```
+
+Step 8 - Add a Legend (ORDER MATTERS)
+========================================================
+```{r, leg_c, eval = FALSE}
+<<leg_a>>   
+```
+
+- **```x=, y=```** position of legend
+- **```legend=```** legend text
+- **```col=```** color of points and/or lines
+- **```pch=```** point symbol
+- **```lty=```** line type
+- **```bty=```** line type ("o"=box, "n"=no box)
+- **```cex=```** magnification of text/symbols
+
+Step 9 - Add Custom Text
+========================================================
+We use **```text()```** to add text to the current plot
+
+```{r, text_a, eval = FALSE}
+text(x = 3, y = 0.5, lab = "SICK", col = "tomato4")
+```
+
+```{r, text_b, echo = FALSE, fig.align = 'center'}
+<<leg_b>>
+text(x = 3, y = 0.5, lab = "SICK", col = "tomato4")
+```
+
+Step 9 - Add Custom Text
+========================================================
+```{r, text_c, eval = FALSE}
+<<text_a>>   
+```
+
+- **```x=, y=```** position of text
+- **```lab=```** text to be written
+- **```col=```** color of text
+
+The Final Plot
+========================================================
+```{r, final, echo = FALSE, fig.align = 'center'}
+<<endplot>>
+```
+
+Saving a Plot
+========================================================
+- Export from RStudio
+- Or, export from the R console:
+```{r, save_png, eval = FALSE}
+# Save as png file
+png("my_plot.png", width = 500, height = 500, res = 72)
+plot(1:10, 1:10, pch = 1:10, col = 1:10) 
+dev.off()
+```
+
+```{r, save_pdf, eval = FALSE}
+# Save as pdf file
+pdf("my_plot.pdf", width = 7, height = 7)
+plot(1:10, 1:10, pch = 1:10, col = 1:10) 
+dev.off()
+```
+
+
+Base Plotting System Review
+========================================================
+- Plot a *static* layer with ```plot(), barplot(), boxplot()```, etc.
+- Plot type varies if x and y are numbers or factors
+- Add new layers with ```lines()``` or ```points()```
+- Customize titles and axes with ```title()``` or ```axis()```
+- Options, such as color or point character, are specified with each layer
+- Graphical parameters can also be changed with ```par()```; see ```?par```
+
+Custom Plot Challenge
+========================================================
+type: prompt
+Make this plot
+
+```{r, cust_ch, echo = FALSE, fig.align = 'center'}
+hd3 <- with(hd, data.frame(table(Day, Brand)))
+plot(hd3$Freq[hd3$Brand == "Nathans"], 
+     type = "o", col = "red", ylim = c(0, 10), 
+     axes = FALSE, ann = FALSE)
+lines(hd3$Freq[hd3$Brand == "OscarMayer"], 
+      type = "o", col = "forestgreen", 
+      pch = 22, lty = 2)
+title(main = "Isaac Prefers Oscar Mayer Hot Dogs over Nathan's", 
+      col.main = "RoyalBlue3", font.main = 4)
+axis(1, at = 1:5, lab = levels(hd3$Day))
+title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+axis(2, las = 1, at = seq(0, 10, 2))
+title(ylab = "Consumed", font.lab = 2)
+legend(x = 1, y = 10, 
+       legend = levels(hd3$Brand),                  
+       col = c("red", "forestgreen"),   
+       pch = 21:22, lty = 1:2,                                   
+       bty = "n", cex = 0.8)  
+text(x = 1, y = 4.65, "Fair", col = "purple4")
+```
+
+***
+
+**Hint:**
+```{r, cust_ch_hint, eval = FALSE}
+hd3 <- data.frame(with(hd, table(Day, Brand)))
+```
+
+Custom Plot Challenge Solution
+========================================================
+type: prompt
+```{r, cust_ch_sol, eval = FALSE}
+<<cust_ch>>
+```
+
+
+ggplot2 Teaser
+========================================================
+```{r, gg1, echo = FALSE, fig.align = 'center'}
 require(ggplot2)
-require(reshape2)
-hotdog.long <- melt(hotdog[1:4], id = "Day",
-                    variable.name = "Ingredient", value.name = "Count")
-ggplot(hotdog.long, aes(x = Day, y = Count, color = Ingredient)) +
-  geom_point(aes(shape = Ingredient)) +
-  geom_line(aes(group = Ingredient, linetype = Ingredient)) +
-  geom_text(data = data.frame(x = 3:4, y = 13, sick = "Sick"),
-            aes(x = x, y = y, label = sick), color = "tomato4") +
+ggplot(hd2, aes(x = Day, y = Freq, color = Type)) +
+  geom_point(aes(shape = Type)) +
+  geom_line(aes(group = Type, linetype = Type)) +
+  geom_text(aes(x = 3, y = 0.5, label = "SICK"), color = "tomato4") +
   ggtitle("Isaac's Weekly Hot Dog Consumption") +
   xlab("Days") +
   ylab("Devoured") +
   theme(plot.title = element_text(color = "maroon", face = "italic"),
         axis.title.x = element_text(color = "steelblue", face = "bold"),
-        axis.title.y = element_text(color = "green", face = "bold"),
-        legend.position = c(.1, .15))
-
+        axis.title.y = element_text(color = "green", face = "bold"))
 ```
+
+***
+
+```{r, gg2, echo = FALSE, fig.align = 'center'}
+ggplot(hd3, aes(x = Day, y = Freq, color = Brand)) +
+  geom_point(aes(shape = Brand)) +
+  geom_line(aes(group = Brand, linetype = Brand)) +
+  geom_text(aes(x = 1, y = 4.65, label = "Fair"), color = "purple4") +
+  ggtitle("Isaac Prefers Oscar Mayer Hot Dogs over Nathan's") +
+  xlab("Days") +
+  ylab("Consumed") +
+  theme(plot.title = element_text(color = "royalblue3", face = "italic"),
+        axis.title.x = element_text(color = "steelblue", face = "bold"),
+        axis.title.y = element_text(face = "bold"))
+```
+
+ggplot2 Teaser Code
+========================================================
+```{r, gg1_code, eval = FALSE}
+<<gg1>>
+```
+
+```{r, gg2_code, eval = FALSE}
+<<gg2>>
+```
+
+Exercises
+========================================================
+- The people at [DataCamp](https://www.datacamp.com/) have a nice
+interactive, introductory R tutorial.
+
+Thank you to...
+========================================================
+- [The R Project for Statistical Computing](http://www.r-project.org)
+- [RStudio People](http://www.rstudio.com)
+- [BIO5 Institute](http://www.bio5.org/)
+- [Southwest Environmental Health Sciences Center](http://swehsc.pharmacy.arizona.edu/)
+
+
+
+
+```{r, readme, eval = FALSE, include = FALSE, echo = FALSE}
+# run to get readme from slide markdown
+# not to be run when slides compile
+file.copy("materials/day3/day3_slides.md", "materials/day3/readme.md")
+```
+
