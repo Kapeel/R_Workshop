@@ -533,9 +533,71 @@ axis(2, at = 1:6, labels = y.ticks, las = 2)
 
 Scatter Plots
 ========================================================
-```{r, scatter, fig.align = 'center'}
-plot(Calories ~ Sodium, data = hd)
+```{r, scatter1, fig.align = 'center'}
+plot(Calories ~ Sodium, data = hd, 
+     pch = c(16, 17)[hd$Brand],
+     col = c("burlywood", "cornflowerblue", "springgreen")[hd$Type])
+```
+
+Scatter Plots - Extra
+========================================================
+```{r, scatter2, eval = FALSE}
 abline(lm(Calories ~ Sodium, data = hd))
+legend("topleft", legend = c(levels(hd$Type), levels(hd$Brand)),
+       pch = c(15, 15, 15, 16, 17),
+       col = c("burlywood", "cornflowerblue", "springgreen", "black", "black"),
+       bty = "n")
+```
+```{r, scatter3, echo = FALSE, fig.align = 'center'}
+<<scatter1>>
+abline(lm(Calories ~ Sodium, data = hd))
+legend("topleft", legend = c(levels(hd$Type), levels(hd$Brand)),
+       pch = c(15, 15, 15, 16, 17),
+       col = c("burlywood", "cornflowerblue", "springgreen", "black", "black"),
+       bty = "n")
+```
+
+Scatter Plot Challenge
+========================================================
+type: prompt
+Create a scatter plot of **Sodium** and **Calories**. Include the following:
+
+1. Sodium on the y-axis, Calories on the x-axis
+2. A main title
+3. Different colors for each brand
+4. Different shapes (```pch```) for each day
+
+**Bonus**: Add a line of best fit and a legend
+
+Scatter Plot Challenge Solution
+========================================================
+type: prompt
+
+```{r, sp_ch_sol, fig.align = 'center'}
+plot(Sodium ~ Calories, data = hd, 
+     pch = c(15, 16, 17, 18, 19)[hd$Day],
+     col = c("green", "red")[hd$Brand])
+```
+
+Scatter Plot Challenge Bonus Solution
+========================================================
+type: prompt
+
+```{r, sp_chB_sol_code, eval = FALSE}
+abline(lm(Sodium ~ Calories, data = hd))
+legend("topleft", legend = c(levels(hd$Brand), levels(hd$Day)),
+       pch = c(13, 13, 15:19),
+       col = c("red", "green", rep("black", 5)),
+       bty = "n")
+```
+
+```{r, sp_chB_sol, echo = FALSE, fig.align = 'center'}
+<<sp_ch_sol>>
+abline(lm(Sodium ~ Calories, data = hd))
+legend("topleft", legend = c(levels(hd$Brand), levels(hd$Day)),
+       pch = c(13, 13, 15:19),
+       col = c("red", "green", rep("black", 5)),
+       bty = "n")
 ```
 
 Making a Custom Plot
