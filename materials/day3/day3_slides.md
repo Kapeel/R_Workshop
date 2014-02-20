@@ -929,7 +929,7 @@ Scatter Plots
 
 ```r
 plot(Calories ~ Sodium, data = hd, 
-     pch = c(16, 17)[hd$Brand],
+     pch = c(15, 16)[hd$Brand],
      col = c("burlywood", "cornflowerblue", "springgreen")[hd$Type])
 ```
 
@@ -942,7 +942,7 @@ Scatter Plots - Extra
 ```r
 abline(lm(Calories ~ Sodium, data = hd))
 legend("topleft", legend = c(levels(hd$Type), levels(hd$Brand)),
-       pch = c(15, 15, 15, 16, 17),
+       pch = c(rep(13, 3), 15, 16),
        col = c("burlywood", "cornflowerblue", "springgreen", "black", "black"),
        bty = "n")
 ```
