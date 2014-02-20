@@ -1231,7 +1231,7 @@ legend(x = 1, y = 10,
 - **```col=```** color of points and/or lines
 - **```pch=```** point symbol
 - **```lty=```** line type
-- **```bty=```** line type ("o"=box, "n"=no box)
+- **```bty=```** box type around legend ("o"=box, "n"=no box)
 - **```cex=```** magnification of text/symbols
 
 Step 9 - Add Custom Text
