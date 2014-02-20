@@ -188,6 +188,13 @@ Summarizing Data
 type: section
 Numerically & Graphically
 
+What is this Data?
+========================================================
+```{r, whatis}
+hd
+```
+
+
 Summarizing Frequencies - 1 & 2 Factors
 ========================================================
 The **```table()```** function builds a contingency table of counts for 
