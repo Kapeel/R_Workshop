@@ -9,10 +9,15 @@ date: February 20, 2014
 Workshop Objectives
 ========================================================
 - Start an RStudio Project
-- Read an Excel file into R
+- Get an Excel file into R
 - Summarize the data **numerically**
 - Summarize the data **graphically**
 - Abuse the **Base** plotting system
+- Practice using R functions
+
+RStudio Projects
+========================================================
+type: section
 
 Create an RStudio Project
 ========================================================
@@ -36,8 +41,32 @@ getwd()
 
 ![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/getwd.png)
 
+Today, Use the Scripting Window
+========================================================
+type: alert
+- Ctrl + Enter will send the current line to the Console and run it
+- You can also highlight several lines and use Ctrl + Enter to send that 
+chunk to the Console
+- Try it now...
+  1. Open a new R Script
+  2. Type **```timestamp()```**
+  3. With the cursor on the same line, press Ctrl + Enter
+  4. Highlight **```timestamp()```** and press Ctrl + Enter
+  
+
+```r
+timestamp()
+```
+
+```
+##------ Thu Feb 20 07:55:08 2014 ------##
+```
+
+
+
 How do we get this into R?
 ========================================================
+type: section
 ![Alt text](http://icj.github.io/R_Workshop/materials/day3/images/excel.png)
 
 Save Excel File as CSV File
@@ -248,6 +277,11 @@ hd <- read.csv(myURL, skip = 1, nrows = 54, header = TRUE)
 hd$Day <- factor(hd$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
 ```
 
+
+Summarizing Data
+========================================================
+type: section
+Numerically & Graphically
 
 Summarizing Frequencies - 1 & 2 Factors
 ========================================================
@@ -834,6 +868,9 @@ abline(lm(Calories ~ Sodium, data = hd))
 <img src="day3_slides-figure/scatter.png" title="plot of chunk scatter" alt="plot of chunk scatter" style="display: block; margin: auto;" />
 
 
+Making a Custom Plot
+========================================================
+type: section
 
 Custom Plots
 ========================================================
@@ -1207,6 +1244,9 @@ text(x = 1, y = 4.65, "Fair", col = "purple4")
 ```
 
 
+ggplot2
+========================================================
+type: section
 
 ggplot2 Teaser
 ========================================================
@@ -1253,8 +1293,11 @@ ggplot(hd3, aes(x = Day, y = Freq, color = Brand)) +
 
 Exercises
 ========================================================
+type: alert
 - The people at [DataCamp](https://www.datacamp.com/) have a nice
 interactive, introductory R tutorial.
+- Take an excel file you have and try to get it into R.
+- Summarize your data numerically and graphically as we've done today.
 
 Thank you to...
 ========================================================

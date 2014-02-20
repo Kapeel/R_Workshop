@@ -1142,11 +1142,19 @@ hljs.initHighlightingOnLoad();
 <div class="slideContent" >
 <ul>
 <li>Start an RStudio Project</li>
-<li>Read an Excel file into R</li>
+<li>Get an Excel file into R</li>
 <li>Summarize the data <strong>numerically</strong></li>
 <li>Summarize the data <strong>graphically</strong></li>
 <li>Abuse the <strong>Base</strong> plotting system</li>
+<li>Practice using R functions</li>
 </ul>
+
+</div>
+
+</section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>RStudio Projects</h2>
+<div class="slideContent" >
 
 </div>
 
@@ -1177,8 +1185,34 @@ hljs.initHighlightingOnLoad();
 </div>
 
 </section>
-<section data-transition="linear" data-transition-speed="default">
-<h3>How do we get this into R?</h3>
+<section data-state="alert" data-transition="linear" data-transition-speed="default">
+<h3>Today, Use the Scripting Window</h3>
+<div class="slideContent" >
+<ul>
+<li>Ctrl + Enter will send the current line to the Console and run it</li>
+<li>You can also highlight several lines and use Ctrl + Enter to send that 
+chunk to the Console</li>
+<li>Try it now&hellip;
+
+<ol>
+<li>Open a new R Script</li>
+<li>Type <strong><code>timestamp()</code></strong></li>
+<li>With the cursor on the same line, press Ctrl + Enter</li>
+<li>Highlight <strong><code>timestamp()</code></strong> and press Ctrl + Enter</li>
+</ol></li>
+</ul>
+
+<pre><code class="r">timestamp()
+</code></pre>
+
+<pre><code>##------ Thu Feb 20 07:55:08 2014 ------##
+</code></pre>
+
+</div>
+
+</section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>How do we get this into R?</h2>
 <div class="mediaOnly slideContent" >
 <p><img src="http://icj.github.io/R_Workshop/materials/day3/images/excel.png" alt="Alt text"/></p>
 
@@ -1432,6 +1466,14 @@ levels(hd$Day)
 hd &lt;- read.csv(myURL, skip = 1, nrows = 54, header = TRUE)
 hd$Day &lt;- factor(hd$Day, levels = c(&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;))
 </code></pre>
+
+</div>
+
+</section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>Summarizing Data</h2>
+<div class="slideContent" >
+<p>Numerically &amp; Graphically</p>
 
 </div>
 
@@ -2040,6 +2082,13 @@ abline(lm(Calories ~ Sodium, data = hd))
 </div>
 
 </section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>Making a Custom Plot</h2>
+<div class="slideContent" >
+
+</div>
+
+</section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Custom Plots</h3>
 <div class="slideContent" >
@@ -2452,6 +2501,13 @@ text(x = 1, y = 4.65, &quot;Fair&quot;, col = &quot;purple4&quot;)
 </div>
 
 </section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>ggplot2</h2>
+<div class="slideContent" >
+
+</div>
+
+</section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>ggplot2 Teaser</h3>
 <div class="column column1 slideContent" >
@@ -2499,12 +2555,14 @@ ggplot(hd2, aes(x = Day, y = Freq, color = Type)) +
 </div>
 
 </section>
-<section data-transition="linear" data-transition-speed="default">
+<section data-state="alert" data-transition="linear" data-transition-speed="default">
 <h3>Exercises</h3>
 <div class="slideContent" >
 <ul>
 <li>The people at <a href="https://www.datacamp.com/">DataCamp</a> have a nice
 interactive, introductory R tutorial.</li>
+<li>Take an excel file you have and try to get it into R.</li>
+<li>Summarize your data numerically and graphically as we&#39;ve done today.</li>
 </ul>
 
 </div>
