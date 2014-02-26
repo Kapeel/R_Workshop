@@ -17,12 +17,14 @@ Workshop Objectives
 Box Plots and Scatter Plots
 ========================================================
 type: prompt
-- Complete the worksheet on your own or with a partner
-- TODO: link to worksheet
+- Complete the 
+[Box Plot and Scatter Plot worksheet](http://icj.github.io/R_Workshop/materials/day4/exercises/day4_onyourown.pdf) 
+with a partner
 - Flag me down for help or reference the 
 [Getting Data In and Summarizing](http://icj.github.io/R_Workshop/materials/day3/day3_slides.html#/)
 slides
-- TODO: make and link to solutions
+- When finished, check the 
+[solutions](http://icj.github.io/R_Workshop/materials/day4/exercises/solutions/day4_ownsolutions.pdf)
 
 Making a Custom Plot
 ========================================================
