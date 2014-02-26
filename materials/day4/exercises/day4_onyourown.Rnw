@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             Box plots and scatter plots                                       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Preamble
+\documentclass[12pt]{article}
+\usepackage[top=1in,left=1in,right=1in,bottom=1in]{geometry}
+\geometry{letterpaper}           % ... or a4paper or a5paper or ...
+\usepackage[parfill]{parskip}    % Begin paragraph w/out indent
+%\geometry{landscape}            % For ALL landscape pages'
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}         % links go to top of figure instead of caption
+\usepackage{pdflscape}           % \begin{landscape} ... \end{landscape}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{appendix}
+% \pagenumbering{gobble}           % Turn off page numbering
+% \usepackage{natbib}              % For bibliography
+\hypersetup{
+    colorlinks=true,             % false: boxed links; true: colored links
+    linkcolor=blue,              % color of internal links
+    citecolor=black              % color of citation links
+    %linkedbordercolor=red,      % color of box around link
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% New LaTeX Commands
+\newcommand{\mb}{\mathbf}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\dd}{\item}
+\newcommand{\bb}{\textbf}
+\newcommand{\ttt}{\texttt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% KnitR Global Options
+<<knitr_global, eval = TRUE, include = FALSE>>=
+opts_chunk$set(echo = FALSE, results = 'hide', message = FALSE)
+opts_knit$set(concordance = TRUE)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Document Title and Author
+\title{Box Plots and Scatter Plots}
+%\author{Isaac Jenkins \\ {\tt <icj@email.arizona.edu>}}
+\date{}                      
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% External Scripts
+<<external_scripts>>=
+#read_chunk("/path/to/script/script.R")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<load_hotdog, cache = TRUE>>=
+myURL <- "http://icj.github.io/R_Workshop/materials/day3/hotdog.csv"
+hd <- read.csv(myURL, skip = 1, nrows = 54, header = TRUE)
+hd$Day <- factor(hd$Day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
+@
+
+\begin{document}
+\maketitle
+
+\section{Load the Hot Dog Data}
+
+Fill in the blanks below to read the file \ttt{hotdog.csv} into \ttt{R} and 
+reorder the levels of the \ttt{Day} factor. You should have this file from the 
+previous workshop. Make sure the file is in your working directory. 
+
+<<read_hotdog, echo = TRUE, eval = FALSE, tidy = FALSE>>=
+myFile <- "hotdog.csv"
+hd <- read.csv(file = ________, 
+               skip = ________, 
+               nrows = ________, 
+               header = ________)
+
+hd$Day <- factor(hd$Day, 
+                 levels = c(____, ____, ____, ____, ____))
+@
+
+Check that the file was read in correctly and that the levels of the
+\ttt{Day} factor are reordered. The structure of your data should look like 
+this:
+
+<<str_hd, echo = TRUE, results = 'markup', size = "footnotesize">>=
+str(hd)
+@
+
+If you can't get this structure, ask me for help.
+
+\subsection{Questions}
+\ben
+  \dd What do the arguments `\ttt{skip=}', `\ttt{nrows=}' and `\ttt{header=}' 
+  do in the \ttt{read.csv()} function?
+  \dd Why do we reorder the levels of the \ttt{Day} column?
+  \dd \bb{True or False}: We reorder the levels of the \ttt{Day} column by 
+  overwriting the original column?
+\een
+
+\section{Box Plots}
+Fill in the blank arguments to get the box plot on the next page. Run your 
+code to see if you get the same plot.
+
+<<box_blanks, echo = TRUE, eval = FALSE, tidy = FALSE>>=
+boxplot(Calories ~ ________ * ________, 
+        data =  ________, 
+        main =  ________, 
+        xlab =  ________, 
+        col  =  c(____, ____, ____, ____, ____, ____),
+        xaxt = "n")
+
+x.ticks <- c(____, ____, ____, ____, ____, ____)
+
+axis(side = 1, 
+     at = 1:__, 
+     labels = ________)
+@
+
+\subsection{Questions and Challenges}
+\ben
+  \dd What does the argument `\ttt{axt = "n"}' do in the \ttt{boxplot()} 
+  function?
+  \dd What do the arguments `\ttt{side = 1}' and `\ttt{at = 1:?}' do in the 
+  \ttt{axis()} function?
+  \dd Create a box plot of \ttt{Sodium} by \ttt{Type}. Include the following:
+    \bit
+      \dd A main title
+      \dd Custom x and y axes titles
+      \dd Make the box plots horizontal
+      \dd Different colors for each hot dog type
+    \eit
+\een
+
+\clearpage
+<<box_blanks_plot>>=
+boxplot(Calories ~ Type * Brand, 
+        data = hd, 
+        main = "Calories", 
+        xlab = "Type and Brand", 
+        col  =  c("blue"  ,"red"  ,"green"  ,"blue"  ,"red"  , "green"),
+        xaxt = "n")
+
+x.ticks <- c("Beef.N", "Meat.N", "Poul.N", "Beef.OM", "Meat.OM", "Poul.OM")
+
+axis(side = 1, 
+     at = 1:6, 
+     labels = x.ticks)
+@
+
+\clearpage
+
+\section{Scatter Plots}
+Fill in the blank arguments to get the scatter plot on the next page. Run your 
+code to see if you get the same plot.
+
+<<scatter_blank, eval = FALSE, echo = TRUE, tidy = FALSE>>=
+plot(________  ~  ________, 
+     data =  ________, 
+     pch = c(15, 16)[________],
+     col = c(____, ____, ____)[________],
+     main = ________)
+
+abline(lm(Calories ~ Sodium, data = hd))
+
+legend(x = "top____", 
+       legend = c(levels(hd$____), levels(hd$____)),
+       pch = c(rep(13, 3), 15, 16),
+       col = c(____, ____, ____, ____, ____),
+       bty = ________)
+@
+
+\subsection{Questions and Challenges}
+\ben
+  \dd What does the argument `\ttt{pch=}' do in the \ttt{plot()} 
+  function?
+  \dd What does the command `\ttt{c(15, 16)[ ??? ]}' do?
+  \dd Instead of using `\ttt{x = "top???"}' in the \ttt{legend()} function what 
+  can you use?
+  \dd What does the argument `\ttt{bty=}' do in the \ttt{legend()} 
+  function?
+  \dd Create a scatter plot of \ttt{Sodium} and \ttt{Type}. Include the 
+  following:
+    \bit
+      \dd \ttt{Sodium} on the y-axis, \ttt{Calories} on the x-axis
+      \dd A main title
+      \dd Different colors for each brand
+      \dd Different shapes for each day (hint: \ttt{pch})
+      \dd \bb{Bonus}: Add a line of best fit and a legend
+    \eit
+\een
+
+\clearpage
+<<scatter_blank_plot>>=
+plot(Calories ~ Sodium, 
+     data = hd, 
+     pch = c(15, 16)[hd$Brand],
+     col = c("blue", "red", "green")[hd$Type],
+     main = "Calories ~ Sodium")
+
+abline(lm(Calories ~ Sodium, data = hd))
+
+legend(x = "topleft", 
+       legend = c(levels(hd$Type), levels(hd$Brand)),
+       pch = c(rep(13, 3), 15, 16),
+       col = c("blue", "red", "green", "black", "black"),
+       bty = "n")
+@
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\section*{R Session Information}
+<<r_session_info, results = 'markup', background = 'white', comment = NA>>=
+sessionInfo()
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Bibliography
+% \clearpage                   % start on fresh page
+% \bibliography{bibfile.bib}   % put in same directory
+% \bibliographystyle{natbib}   % put natbib.bst in same directory (in ~/useful)
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Generic Templates
+
+%% XTable Template
+% <<table_name, eval = TRUE, results = 'asis'>>=
+% print(xtable(x,
+%              digit = c(0),
+%              caption = "Caption",
+%              label = "tab:tableName"),
+% #       add.to.row = list(pos = list(), # after which row 
+% #                         command = c("\\midrule ")), # adds line
+%       table.placement = "H",
+%       include.rownames = TRUE,
+%       booktabs = TRUE)
+% @
