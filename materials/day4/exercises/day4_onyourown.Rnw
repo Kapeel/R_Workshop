@@ -132,7 +132,7 @@ axis(side = 1,
 \ben
   \dd What does the argument `\ttt{axt = "n"}' do in the \ttt{boxplot()} 
   function?
-  \dd What do the arguments `\ttt{side = 1}' and `\ttt{at = 1:?}' do in the 
+  \dd What do the arguments `\ttt{side = 1}' and `\ttt{at = 1:\_\_}' do in the 
   \ttt{axis()} function?
   \dd Create a box plot of \ttt{Sodium} by \ttt{Type}. Include the following:
     \bit
@@ -169,7 +169,7 @@ code to see if you get the same plot.
 plot(________  ~  ________, 
      data =  ________, 
      pch = c(15, 16)[________],
-     col = c(____, ____, ____)[________],
+     col = c(____, ____, ____)[hd$Type],
      main = ________)
 
 abline(lm(Calories ~ Sodium, data = hd))
@@ -185,9 +185,9 @@ legend(x = "top____",
 \ben
   \dd What does the argument `\ttt{pch=}' do in the \ttt{plot()} 
   function?
-  \dd What does the command `\ttt{c(15, 16)[ ??? ]}' do?
-  \dd Instead of using `\ttt{x = "top???"}' in the \ttt{legend()} function what 
-  can you use?
+  \dd What does the command `\ttt{c(15, 16)[\_\_\_\_\_\_\_\_]}' do?
+  \dd Instead of using `\ttt{x = "top\_\_\_\_"}' in the \ttt{legend()} 
+  function what can you use?
   \dd What does the argument `\ttt{bty=}' do in the \ttt{legend()} 
   function?
   \dd Create a scatter plot of \ttt{Sodium} and \ttt{Type}. Include the 

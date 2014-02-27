@@ -93,7 +93,7 @@ hd$Day <- factor(hd$Day,
       \dd \ttt{skip=}: number of lines to skip from the beginning of csv file
       \dd \ttt{nrows=}: number of rows to read (after the skip) from the 
       csv file
-      \dd \ttt{header=}: first row that is read contains column names
+      \dd \ttt{header=}: if TRUE, first row that is read contains column names
     \eit
   \dd Why do we reorder the levels of the \ttt{Day} column?
     \bit
@@ -197,10 +197,11 @@ legend(x = "topleft",
       \dd Creates a vector where a 15 or 16 is repeated for each level of 
       hd\$Brand.
     \eit
-  \dd Instead of using `\ttt{x = ``topleft''}' in the \ttt{legend()} function what 
+  \dd Instead of using `\ttt{x = "topleft"}' in the \ttt{legend()} function what 
   can you use?
     \bit
-      \dd Another string: ``topright'', ``bottomleft'' or ``bottomright''
+      \dd Another string: \ttt{"topright"}, \ttt{"bottomleft"} or 
+      \ttt{"bottomright"}
       \dd Use both `\ttt{x=}' and `\ttt{y=}' arguments to specify a point on 
       plot
     \eit
@@ -208,7 +209,7 @@ legend(x = "topleft",
   function?
     \bit
       \dd Specifies whether or not a box should be drawn around the legend 
-      (``o'' = box, ``n'' = no box).
+      (\ttt{"o"} = box, \ttt{"n"} = no box).
     \eit
   \dd Create a scatter plot of \ttt{Sodium} and \ttt{Type}. Include the 
   following:
