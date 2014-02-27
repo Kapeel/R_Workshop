@@ -8,8 +8,8 @@ date: February 27, 2014
 
 Workshop Objectives
 ========================================================
-- On your own (or with a partner):
-  - Load **Hot Dog** data
+- Work with a partner to:
+  - Load [Hot Dog](http://icj.github.io/R_Workshop/materials/day3/hotdog.csv) data
   - Make box plots and scatter plots
 - Make a custom plot
 - Introduce the **```ggplot2```** package
@@ -67,23 +67,33 @@ Day   Beef Meat Poultry
 
 ```r
 hd2 <- data.frame(with(hd, table(Day, Type)))
-head(hd2)
+hd2
 ```
 
 ```
-  Day Type Freq
-1 Mon Beef    3
-2 Tue Beef    2
-3 Wed Beef    3
-4 Thu Beef    3
-5 Fri Beef    9
-6 Mon Meat    2
+   Day    Type Freq
+1  Mon    Beef    3
+2  Tue    Beef    2
+3  Wed    Beef    3
+4  Thu    Beef    3
+5  Fri    Beef    9
+6  Mon    Meat    2
+7  Tue    Meat    4
+8  Wed    Meat    1
+9  Thu    Meat    6
+10 Fri    Meat    4
+11 Mon Poultry    5
+12 Tue Poultry    4
+13 Wed Poultry    4
+14 Thu Poultry    2
+15 Fri Poultry    2
 ```
 
 
 Step 2 - Initialize the Plot
 ========================================================
-We use **```plot()```** to open a new plotting window
+We use [```plot()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html) 
+to open a new plotting window
 
 
 ```r
@@ -105,17 +115,21 @@ plot(x = hd2$Freq[hd2$Type == "Beef"],
      axes = FALSE, ann = FALSE)
 ```
 
-
 - **```x=```** Points to plot (actually the y values here)
-- **```type=```** what type of plot (see **?plot**)
+- **```type=```** what type of plot 
 - **```col=```** color of points and/or lines
 - **```ylim=```** min and max y-values on y-axis
 - **```axes=```** include axes?
 - **```ann=```** include annotations?
 
+For more detailed argument definitions, 
+run [```?plot```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html) 
+and [```?par```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html)
+
 Step 3 - Add a Layer
 ========================================================
-We use **```lines()```** to add a layer to the current plot
+We use [```lines()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html) 
+to add a layer to the current plot
 
 
 ```r
@@ -145,6 +159,10 @@ lines(x = hd2$Freq[hd2$Type == "Meat"],
 - **```pch=```** point symbol
 - **```lty=```** line type
 
+For more detailed argument definitions, 
+run [```?lines```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html) 
+and [```?par```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html)
+
 Step 4 - Add another Layer
 ========================================================
 
@@ -161,7 +179,8 @@ lines(x = hd2$Freq[hd2$Type == "Poultry"],
 
 Step 5 - Add a Main Title
 ========================================================
-We use **```title()```** to add labels to the current plot
+We use [```title()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html) 
+to add labels/annotations to the current plot
 
 
 ```r
@@ -191,9 +210,13 @@ title(main = "Isaac's Weekly Hot Dog Consumption",
   - 3 = italic
   - 4 = bold and italic
   
+For more detailed argument definitions, 
+run [```?title```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html) 
+  
 Step 6 - Customize the X-axis
 ========================================================
-We use **```axis()```** to specify the axis ticks on the current plot
+We use [```axis()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html) 
+to specify the axis ticks on the current plot
 
 
 ```r
@@ -210,8 +233,12 @@ Step 6 - Customize the X-axis
 
 
 ```r
-axis(side = 1, at = 1:5, lab = levels(hd2$Day))
-title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
+axis(side = 1, 
+     at = 1:5, 
+     lab = levels(hd2$Day))
+title(xlab = "Days", 
+      col.lab = "steelblue", 
+      font.lab = 2)
 ```
 
 
@@ -219,10 +246,17 @@ title(xlab = "Days", col.lab = "steelblue", font.lab = 2)
   - **```side=```** side of plot (1=below, 2=left, 3=above and 4=right)
   - **```at=```** points where tick marks are drawn
   - **```lab=```** custom tick labels
-- **```title()```** font style for main title
+
+***
+
+- **```title()```** - Used again to specify axis title
   - **```xlab=```** title for x-axis
   - **```col.lab=```** color for x-axis title
   - **```font.lab=```** font style for x-axis title
+  
+For more detailed argument definitions, 
+run [```?axis```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html)
+and [```?title```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html) 
   
 Step 7 - Customize the Y-axis
 ========================================================
@@ -239,15 +273,19 @@ title(ylab = "Devoured", col.lab = 3, font.lab = 2)
 
 Step 8 - Add a Legend
 ========================================================
-We use **```legend()```** to add a legend to the current plot
+We use [```legend()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html) 
+to add a legend to the current plot
 
 
 ```r
-legend(x = 1, y = 10, 
+legend(x = 1, 
+       y = 10, 
        legend = levels(hd2$Type),                  
        col = c("red", "forestgreen", "blue"),   
-       pch = 21:23, lty = 1:3,                                   
-       bty = "n", cex = 0.8) 
+       pch = 21:23, 
+       lty = 1:3,                                   
+       bty = "n", 
+       cex = 0.8) 
 ```
 
 
@@ -260,13 +298,21 @@ Step 8 - Add a Legend (ORDER MATTERS)
 ========================================================
 
 ```r
-legend(x = 1, y = 10, 
+legend(x = 1, 
+       y = 10, 
        legend = levels(hd2$Type),                  
        col = c("red", "forestgreen", "blue"),   
-       pch = 21:23, lty = 1:3,                                   
-       bty = "n", cex = 0.8) 
+       pch = 21:23, 
+       lty = 1:3,                                   
+       bty = "n", 
+       cex = 0.8) 
 ```
 
+
+For more detailed argument definitions, 
+run [?legend](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html)
+
+***
 
 - **```x=, y=```** position of legend
 - **```legend=```** legend text
@@ -278,7 +324,8 @@ legend(x = 1, y = 10,
 
 Step 9 - Add Custom Text
 ========================================================
-We use **```text()```** to add text to the current plot
+We use [```text()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html) 
+to add text to the current plot
 
 
 ```r
@@ -300,6 +347,9 @@ text(x = 3, y = 0.5, lab = "SICK", col = "tomato4")
 - **```x=, y=```** position of text
 - **```lab=```** text to be written
 - **```col=```** color of text
+
+For more detailed argument definitions, 
+run [?text](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html)
 
 The Final Plot's Code
 ========================================================
@@ -337,12 +387,27 @@ The Final Plot
 
 Base Plotting System Review
 ========================================================
-- Plot a *static* layer with ```plot(), barplot(), boxplot()```, etc.
-- Plot type varies if x and y are numbers or factors
-- Add new layers with ```lines()``` or ```points()```
-- Customize titles and axes with ```title()``` or ```axis()```
+type: alert
+- Plot a *static* layer with 
+[```plot()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html), 
+[```barplot()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/barplot.html), 
+[```boxplot()```](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/boxplot.html), 
+etc.
+- Plot type varies if data are numbers or factors
+- Add new layers with 
+[```lines()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html),
+[```points()```](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html), 
+[```legend()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html)
+and [```text()```](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html)
+- Customize titles and axes with 
+[```title()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html) 
+and [```axis()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html)
 - Options, such as color or point character, are specified with each layer
-- Graphical parameters can also be changed with ```par()```; see ```?par```
+- Graphical parameters can also be changed with 
+[```par()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html)
+  - The [```par()```](http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html) 
+  help documentation is a great source for identifying what plotting arguments 
+  do
 
 Saving a Plot
 ========================================================

@@ -1141,10 +1141,10 @@ hljs.initHighlightingOnLoad();
 <h3>Workshop Objectives</h3>
 <div class="slideContent" >
 <ul>
-<li>On your own (or with a partner):
+<li>Work with a partner to:
 
 <ul>
-<li>Load <strong>Hot Dog</strong> data</li>
+<li>Load <a href="http://icj.github.io/R_Workshop/materials/day3/hotdog.csv">Hot Dog</a> data</li>
 <li>Make box plots and scatter plots</li>
 </ul></li>
 <li>Make a custom plot</li>
@@ -1212,16 +1212,25 @@ Day   Beef Meat Poultry
 </code></pre>
 
 <pre><code class="r">hd2 &lt;- data.frame(with(hd, table(Day, Type)))
-head(hd2)
+hd2
 </code></pre>
 
-<pre><code>  Day Type Freq
-1 Mon Beef    3
-2 Tue Beef    2
-3 Wed Beef    3
-4 Thu Beef    3
-5 Fri Beef    9
-6 Mon Meat    2
+<pre><code>   Day    Type Freq
+1  Mon    Beef    3
+2  Tue    Beef    2
+3  Wed    Beef    3
+4  Thu    Beef    3
+5  Fri    Beef    9
+6  Mon    Meat    2
+7  Tue    Meat    4
+8  Wed    Meat    1
+9  Thu    Meat    6
+10 Fri    Meat    4
+11 Mon Poultry    5
+12 Tue Poultry    4
+13 Wed Poultry    4
+14 Thu Poultry    2
+15 Fri Poultry    2
 </code></pre>
 
 </div>
@@ -1230,7 +1239,8 @@ head(hd2)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 2 - Initialize the Plot</h3>
 <div class="slideContent" >
-<p>We use <strong><code>plot()</code></strong> to open a new plotting window</p>
+<p>We use <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html"><code>plot()</code></a> 
+to open a new plotting window</p>
 
 <pre><code class="r">plot(x = hd2$Freq[hd2$Type == &quot;Beef&quot;], 
      type = &quot;o&quot;, col = &quot;red&quot;, ylim = c(0, 10), 
@@ -1252,12 +1262,16 @@ head(hd2)
 
 <ul>
 <li><strong><code>x=</code></strong> Points to plot (actually the y values here)</li>
-<li><strong><code>type=</code></strong> what type of plot (see <strong>?plot</strong>)</li>
+<li><strong><code>type=</code></strong> what type of plot </li>
 <li><strong><code>col=</code></strong> color of points and/or lines</li>
 <li><strong><code>ylim=</code></strong> min and max y-values on y-axis</li>
 <li><strong><code>axes=</code></strong> include axes?</li>
 <li><strong><code>ann=</code></strong> include annotations?</li>
 </ul>
+
+<p>For more detailed argument definitions, 
+run <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html"><code>?plot</code></a> 
+and <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html"><code>?par</code></a></p>
 
 </div>
 
@@ -1265,7 +1279,8 @@ head(hd2)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 3 - Add a Layer</h3>
 <div class="slideContent" >
-<p>We use <strong><code>lines()</code></strong> to add a layer to the current plot</p>
+<p>We use <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html"><code>lines()</code></a> 
+to add a layer to the current plot</p>
 
 <pre><code class="r">lines(x = hd2$Freq[hd2$Type == &quot;Meat&quot;], 
       type = &quot;o&quot;, col = &quot;forestgreen&quot;, 
@@ -1293,6 +1308,10 @@ head(hd2)
 <li><strong><code>lty=</code></strong> line type</li>
 </ul>
 
+<p>For more detailed argument definitions, 
+run <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html"><code>?lines</code></a> 
+and <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html"><code>?par</code></a></p>
+
 </div>
 
 </section>
@@ -1312,7 +1331,8 @@ head(hd2)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 5 - Add a Main Title</h3>
 <div class="slideContent" >
-<p>We use <strong><code>title()</code></strong> to add labels to the current plot</p>
+<p>We use <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html"><code>title()</code></a> 
+to add labels/annotations to the current plot</p>
 
 <pre><code class="r">title(main = &quot;Isaac&#39;s Weekly Hot Dog Consumption&quot;, 
       col.main = &quot;maroon&quot;, font.main = 4)
@@ -1343,13 +1363,17 @@ head(hd2)
 </ul></li>
 </ul>
 
+<p>For more detailed argument definitions, 
+run <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html"><code>?title</code></a> </p>
+
 </div>
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 6 - Customize the X-axis</h3>
 <div class="slideContent" >
-<p>We use <strong><code>axis()</code></strong> to specify the axis ticks on the current plot</p>
+<p>We use <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html"><code>axis()</code></a> 
+to specify the axis ticks on the current plot</p>
 
 <pre><code class="r">axis(side = 1, at = 1:5, lab = levels(hd2$Day))
 title(xlab = &quot;Days&quot;, col.lab = &quot;steelblue&quot;, font.lab = 2)
@@ -1362,9 +1386,13 @@ title(xlab = &quot;Days&quot;, col.lab = &quot;steelblue&quot;, font.lab = 2)
 </section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 6 - Customize the X-axis</h3>
-<div class="slideContent" >
-<pre><code class="r">axis(side = 1, at = 1:5, lab = levels(hd2$Day))
-title(xlab = &quot;Days&quot;, col.lab = &quot;steelblue&quot;, font.lab = 2)
+<div class="column column1 slideContent" >
+<pre><code class="r">axis(side = 1, 
+     at = 1:5, 
+     lab = levels(hd2$Day))
+title(xlab = &quot;Days&quot;, 
+      col.lab = &quot;steelblue&quot;, 
+      font.lab = 2)
 </code></pre>
 
 <ul>
@@ -1375,7 +1403,16 @@ title(xlab = &quot;Days&quot;, col.lab = &quot;steelblue&quot;, font.lab = 2)
 <li><strong><code>at=</code></strong> points where tick marks are drawn</li>
 <li><strong><code>lab=</code></strong> custom tick labels</li>
 </ul></li>
-<li><strong><code>title()</code></strong> font style for main title
+</ul>
+
+
+</div>
+
+<div class="column column2 slideContent" >
+
+
+<ul>
+<li><strong><code>title()</code></strong> - Used again to specify axis title
 
 <ul>
 <li><strong><code>xlab=</code></strong> title for x-axis</li>
@@ -1383,6 +1420,10 @@ title(xlab = &quot;Days&quot;, col.lab = &quot;steelblue&quot;, font.lab = 2)
 <li><strong><code>font.lab=</code></strong> font style for x-axis title</li>
 </ul></li>
 </ul>
+
+<p>For more detailed argument definitions, 
+run <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html"><code>?axis</code></a>
+and <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html"><code>?title</code></a> </p>
 
 </div>
 
@@ -1402,13 +1443,17 @@ title(ylab = &quot;Devoured&quot;, col.lab = 3, font.lab = 2)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 8 - Add a Legend</h3>
 <div class="column column1 slideContent" >
-<p>We use <strong><code>legend()</code></strong> to add a legend to the current plot</p>
+<p>We use <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html"><code>legend()</code></a> 
+to add a legend to the current plot</p>
 
-<pre><code class="r">legend(x = 1, y = 10, 
+<pre><code class="r">legend(x = 1, 
+       y = 10, 
        legend = levels(hd2$Type),                  
        col = c(&quot;red&quot;, &quot;forestgreen&quot;, &quot;blue&quot;),   
-       pch = 21:23, lty = 1:3,                                   
-       bty = &quot;n&quot;, cex = 0.8) 
+       pch = 21:23, 
+       lty = 1:3,                                   
+       bty = &quot;n&quot;, 
+       cex = 0.8) 
 </code></pre>
 
 
@@ -1424,13 +1469,25 @@ title(ylab = &quot;Devoured&quot;, col.lab = 3, font.lab = 2)
 </section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 8 - Add a Legend (ORDER MATTERS)</h3>
-<div class="slideContent" >
-<pre><code class="r">legend(x = 1, y = 10, 
+<div class="column column1 slideContent" >
+<pre><code class="r">legend(x = 1, 
+       y = 10, 
        legend = levels(hd2$Type),                  
        col = c(&quot;red&quot;, &quot;forestgreen&quot;, &quot;blue&quot;),   
-       pch = 21:23, lty = 1:3,                                   
-       bty = &quot;n&quot;, cex = 0.8) 
+       pch = 21:23, 
+       lty = 1:3,                                   
+       bty = &quot;n&quot;, 
+       cex = 0.8) 
 </code></pre>
+
+<p>For more detailed argument definitions, 
+run <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html">?legend</a></p>
+
+
+</div>
+
+<div class="column column2 slideContent" >
+
 
 <ul>
 <li><strong><code>x=, y=</code></strong> position of legend</li>
@@ -1448,7 +1505,8 @@ title(ylab = &quot;Devoured&quot;, col.lab = 3, font.lab = 2)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Step 9 - Add Custom Text</h3>
 <div class="slideContent" >
-<p>We use <strong><code>text()</code></strong> to add text to the current plot</p>
+<p>We use <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html"><code>text()</code></a> 
+to add text to the current plot</p>
 
 <pre><code class="r">text(x = 3, y = 0.5, lab = &quot;SICK&quot;, col = &quot;tomato4&quot;)
 </code></pre>
@@ -1469,6 +1527,9 @@ title(ylab = &quot;Devoured&quot;, col.lab = 3, font.lab = 2)
 <li><strong><code>lab=</code></strong> text to be written</li>
 <li><strong><code>col=</code></strong> color of text</li>
 </ul>
+
+<p>For more detailed argument definitions, 
+run <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html">?text</a></p>
 
 </div>
 
@@ -1510,16 +1571,33 @@ text(x = 3, y = 0.5, lab = &quot;SICK&quot;, col = &quot;tomato4&quot;)
 </div>
 
 </section>
-<section data-transition="linear" data-transition-speed="default">
+<section data-state="alert" data-transition="linear" data-transition-speed="default">
 <h3>Base Plotting System Review</h3>
 <div class="slideContent" >
 <ul>
-<li>Plot a <em>static</em> layer with <code>plot(), barplot(), boxplot()</code>, etc.</li>
-<li>Plot type varies if x and y are numbers or factors</li>
-<li>Add new layers with <code>lines()</code> or <code>points()</code></li>
-<li>Customize titles and axes with <code>title()</code> or <code>axis()</code></li>
+<li>Plot a <em>static</em> layer with 
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html"><code>plot()</code></a>, 
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/barplot.html"><code>barplot()</code></a>, 
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/boxplot.html"><code>boxplot()</code></a>, 
+etc.</li>
+<li>Plot type varies if data are numbers or factors</li>
+<li>Add new layers with 
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/lines.html"><code>lines()</code></a>,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html"><code>points()</code></a>, 
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/legend.html"><code>legend()</code></a>
+and <a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/text.html"><code>text()</code></a></li>
+<li>Customize titles and axes with 
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/title.html"><code>title()</code></a> 
+and <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/axis.html"><code>axis()</code></a></li>
 <li>Options, such as color or point character, are specified with each layer</li>
-<li>Graphical parameters can also be changed with <code>par()</code>; see <code>?par</code></li>
+<li>Graphical parameters can also be changed with 
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html"><code>par()</code></a>
+
+<ul>
+<li>The <a href="http://stat.ethz.ch/R-manual/R-devel/library/graphics/html/par.html"><code>par()</code></a> 
+help documentation is a great source for identifying what plotting arguments 
+do</li>
+</ul></li>
 </ul>
 
 </div>
