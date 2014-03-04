@@ -155,16 +155,86 @@ analysis (e.g.,
 Gather the Data
 ========================================================
 1. Create a new RStudio project
-2. If data in Excel file, export to csv
-3. Put your csv files in your working directory
+2. If data is in an Excel file, export to csv 
+(I've already done this)
+3. Put the csv files in your working directory
   - Get the files and move them your preferred way: 
   [file1](http://icj.github.io/R_Workshop/materials/day5/expression.csv) and 
   [file2](http://icj.github.io/R_Workshop/materials/day5/phenotype.csv)
-  - Or, run this
+  - Or, run this:
   
 ```{r, get_data, eval = FALSE}
 myURL <- "http://icj.github.io/R_Workshop/materials/day5/"
-download.file(paste0(myurl, "expression.csv"), "expression.csv")
-download.file(paste0(myurl, "phenotype.csv"), "phenotype.csv")
+download.file(paste0(myURL, "expression.csv"), "expression.csv")
+download.file(paste0(myURL, "phenotype.csv"), "phenotype.csv")
 ```
 
+Load Assay/Expression Data
+========================================================
+Use ```read.csv()``` to load the expression data
+
+```{r, load_expression}
+express <- read.csv("expression.csv", 
+                    stringsAsFactors = FALSE,
+                    row.names = 1)
+```
+
+We want this to be a ```matrix```
+
+```{r, matrix_expression}
+express <- as.matrix(express)
+```
+
+Check Assay/Expression Data
+========================================================
+```{r, check_expression1}
+class(express)
+mode(express)
+typeof(express)
+dim(express)
+```
+
+***
+
+```{r, check_expression2}
+head(colnames(express))
+head(rownames(express))
+express[1:3, 1:2]
+```
+
+We could stop here...
+========================================================
+A minimal *ExpressionSet* object has only the expression data
+
+```{r, minimal}
+require(Biobase)
+minimalSet <- ExpressionSet(assayData = express)
+minimalSet
+```
+
+But we won't.
+
+Load Phenotypic Data
+========================================================
+Use ```read.csv()``` to load the phenotype data
+
+```{r, load_phenotype}
+pheno <- read.csv("phenotype.csv", 
+                  colClasses = c("character", rep("factor", 2),
+                                 "numeric"),
+                  skip = 4)
+```
+
+Check Phenotypic Data
+========================================================
+```{r, check_pheno1}
+head(pheno)
+str(pheno)
+summary(pheno)
+```
+
+Summarize Phenotypic Data
+========================================================
+```{r, check_pheno2}
+summary(pheno)
+```
