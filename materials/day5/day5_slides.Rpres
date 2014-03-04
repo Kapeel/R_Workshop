@@ -1,0 +1,170 @@
+Intro to Bioconductor
+========================================================
+author: Isaac Jenkins
+date: March 6, 2014
+
+With material borrowed from B. Wolf, S. Falcon, M. Morgan, R. Gentleman and C. Wong (Thank you!)
+
+```{r, echo = FALSE, include = FALSE}
+opts_chunk$set(prompt = FALSE, cache = TRUE)
+```
+
+Objectives
+========================================================
+- Learn what Bioconductor is
+- Navigate the [Bioconductor website](http://www.bioconductor.org/)
+- Install Bioconductor and its packages
+- Create an ***ExpressionSet*** object
+
+About Bioconductor
+========================================================
+> Bioconductor is an open source, open development software project
+to provide tools for the analysis and comprehension of 
+high-throughput genomic data. It is based primarily on the R
+programming language.
+
+*Source*: [Bioconductor](http://www.bioconductor.org/about/)
+
+
+Navigate the Bioconductor Website
+========================================================
+Head over to:
+
+[![Alt text](http://upload.wikimedia.org/wikipedia/en/f/f5/BioClogo.gif)](http://www.bioconductor.org/)
+
+Installing Bioconductor
+========================================================
+- Bioconductor packages are run using R
+- First we must install the core Bioconductor packages
+
+```{r install, eval = FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite()
+```
+
+- This installs the Bioconductor packages Biobase, IRanges and 
+AnnotationDbi (as well as some dependencies)
+- Refresh your package list in RStudio
+
+Installing Bioconductor Packages
+========================================================
+- Functionality is similar to R packages, but installation is 
+different
+- **CANNOT** use the Install Packages button in RStudio
+- **CANNOT** use the R function ```install.packages()```
+- Instead, use the ```biocLite()``` function in the 
+**BiocInstaller** package
+
+Installing Bioconductor Packages
+========================================================
+- Installing Bioconductor packages requires **2 steps**
+  1. Load the installer package
+  2. Install the desired package
+- Let's install the Bioconductor package [```affy```](http://www.bioconductor.org/packages/release/bioc/html/affy.html)
+
+```{r, install_affy, eval = FALSE}
+require(BiocInstaller) # load the installer package
+biocLite("affy") # install the affy package
+```
+
+- Note that step 1 only has to be done once during the current 
+R session
+
+Help for Bioconductor Packages
+========================================================
+- Similar to R, there are help files for all Bioconductor functions
+
+```{r, bioc_help, eval = FALSE}
+require(affy) # load the affy package
+?expresso
+```
+
+- In general, there are exceptionally useful Vignettes
+
+```{r, bioc_vignette, eval = FALSE}
+browseVignettes("affy") # opens in web browser
+```
+
+A Note about Class Systems
+========================================================
+- R and Bioconductor packages are loaded and used similarly
+- R contains an *S3* and *S4* class system
+- R packages typically use the S3 system
+- Bioconductor packages typically use the S4 system
+- S4 is based on object-oriented programming, which is more 
+formal and rigourous
+- [More details on S4](http://cran.r-project.org/doc/contrib/Genolini-S4tutorialV0-5en.pdf)
+
+Example: ExpressionSet Object
+========================================================
+- The **Biobase** package contains standardized data structures 
+(or classes)
+- The idea is to combine multiple sources of information into one 
+convenient structure
+- The *ExpressionSet* class is a common example of these 
+structures
+- It is the input and output of many Bioconductor functions
+
+ExpressionSet Components
+========================================================
+- **assayData**: expression data from microarray experiments
+- **phenoData**: metadata describing the experiment's samples
+- **featureData**: metadata about the features in the experiment
+- **annotation**: the platform on which the samples were assayed
+- **experimentData**: a flexible structure for describing the 
+experiment
+
+ExpressionSet from a .CEL file
+========================================================
+- One may have an output file from a microarray chip manufacturer
+- Possible strategy is to use a bioconductor package 
+(e.g., affy or limma) to read in the data as an *ExpressionSet*
+or other type of object
+- It is sometimes possible to convert other types of Bioconductor objects into *ExpressionSets* using the 
+[```convert```](http://www.bioconductor.org/packages/release/bioc/html/convert.html) 
+package
+```{r, convert, eval = FALSE}
+biocLite("convert")
+require(convert)
+as(myObject, "ExpressionSet")
+```
+- When none of this works...
+
+Build an ExpressionSet from Scratch
+========================================================
+- It's likely that your experiment's data resides in conceptually distinct parts:
+  - assay data
+  - phenotypic meta-data
+  - feature annontation
+  - experiment data
+- We can load these parts individually and merge them into an
+*ExpressionSet* object ... sort of like Voltron.
+
+![Alt text](http://upload.wikimedia.org/wikipedia/en/b/b0/Voltron_boxart.jpg)
+
+Possible Scenario
+========================================================
+- You identify a Bioconductor package that is perfect for your 
+analysis (e.g., 
+[```ChromHeatMap```](http://www.bioconductor.org/packages/release/bioc/html/ChromHeatMap.html))
+- The package takes an *ExpressionSet* object as input
+- Your data is stored in an excel spreadsheet or .csv file
+
+**What do you do?** ... Build an *ExpressionSet* object.
+
+Gather the Data
+========================================================
+1. Create a new RStudio project
+2. If data in Excel file, export to csv
+3. Put your csv files in your working directory
+  - Get the files and move them your preferred way: 
+  [file1](http://icj.github.io/R_Workshop/materials/day5/expression.csv) and 
+  [file2](http://icj.github.io/R_Workshop/materials/day5/phenotype.csv)
+  - Or, run this
+  
+```{r, get_data, eval = FALSE}
+myURL <- "http://icj.github.io/R_Workshop/materials/day5/"
+download.file(paste0(myurl, "expression.csv"), "expression.csv")
+download.file(paste0(myurl, "phenotype.csv"), "phenotype.csv")
+```
+
