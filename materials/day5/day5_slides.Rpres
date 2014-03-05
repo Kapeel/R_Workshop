@@ -3,10 +3,12 @@ Intro to Bioconductor
 author: Isaac Jenkins
 date: March 6, 2014
 
-With material borrowed from B. Wolf, S. Falcon, M. Morgan, R. Gentleman and C. Wong (Thank you!)
+Material adapted from S. Falcon, M. Morgan and  R. Gentlemans' 
+[*An Introduction to Bioconductor's ExpressionSet Class*](http://www.bioconductor.org/packages/release/bioc/vignettes/Biobase/inst/doc/ExpressionSetIntroduction.pdf) 
+(Thank you!)
 
 ```{r, echo = FALSE, include = FALSE}
-opts_chunk$set(prompt = FALSE, cache = TRUE)
+opts_chunk$set(prompt = FALSE, cache = TRUE, dependson = 'auto')
 ```
 
 Objectives
@@ -92,13 +94,13 @@ A Note about Class Systems
 - R packages typically use the S3 system
 - Bioconductor packages typically use the S4 system
 - S4 is based on object-oriented programming, which is more 
-formal and rigourous
+formal and rigorous
 - [More details on S4](http://cran.r-project.org/doc/contrib/Genolini-S4tutorialV0-5en.pdf)
 
 Example: ExpressionSet Object
 ========================================================
 - The **Biobase** package contains standardized data structures 
-(or classes)
+to represent genomic data
 - The idea is to combine multiple sources of information into one 
 convenient structure
 - The *ExpressionSet* class is a common example of these 
@@ -113,6 +115,10 @@ ExpressionSet Components
 - **annotation**: the platform on which the samples were assayed
 - **experimentData**: a flexible structure for describing the 
 experiment
+
+What are Microarrays?
+========================================================
+[![Alt text](http://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Heatmap.png/480px-Heatmap.png)](http://en.wikipedia.org/wiki/DNA_microarray)
 
 ExpressionSet from a .CEL file
 ========================================================
@@ -132,10 +138,10 @@ as(myObject, "ExpressionSet")
 
 Build an ExpressionSet from Scratch
 ========================================================
-- It's likely that your experiment's data resides in conceptually distinct parts:
+- It's likely that your data resides in conceptually distinct parts:
   - assay data
-  - phenotypic meta-data
-  - feature annontation
+  - phenotype meta-data
+  - feature annotation
   - experiment data
 - We can load these parts individually and merge them into an
 *ExpressionSet* object ... sort of like Voltron.
@@ -171,7 +177,7 @@ download.file(paste0(myURL, "phenotype.csv"), "phenotype.csv")
 
 Load Assay/Expression Data
 ========================================================
-Use ```read.csv()``` to load the expression data
+- Use ```read.csv()``` to load the expression data
 
 ```{r, load_expression}
 express <- read.csv("expression.csv", 
@@ -179,7 +185,10 @@ express <- read.csv("expression.csv",
                     row.names = 1)
 ```
 
-We want this to be a ```matrix```
+- **```row.names = 1```** tells it the first column should be read in 
+as row names
+
+- We want this to be a ```matrix```
 
 ```{r, matrix_expression}
 express <- as.matrix(express)
@@ -197,9 +206,7 @@ dim(express)
 ***
 
 ```{r, check_expression2}
-head(colnames(express))
-head(rownames(express))
-express[1:3, 1:2]
+express[1:15, 1:2]
 ```
 
 We could stop here...
@@ -214,27 +221,263 @@ minimalSet
 
 But we won't.
 
-Load Phenotypic Data
+Load Phenotype Data
 ========================================================
-Use ```read.csv()``` to load the phenotype data
+- Use ```read.csv()``` to load the phenotype data
 
 ```{r, load_phenotype}
 pheno <- read.csv("phenotype.csv", 
                   colClasses = c("character", rep("factor", 2),
                                  "numeric"),
+                  row.names = 1,
                   skip = 4)
 ```
 
-Check Phenotypic Data
+- **```colClasses=```**: tells it what class of variable each 
+column should be read in as
+
+Check Phenotype Data
 ========================================================
 ```{r, check_pheno1}
 head(pheno)
 str(pheno)
-summary(pheno)
 ```
 
-Summarize Phenotypic Data
+Summarize Phenotype Data
 ========================================================
 ```{r, check_pheno2}
 summary(pheno)
+```
+
+Challenge
+========================================================
+type: prompt
+1. Investigate the row and column names of the expression data.
+2. Investigate the row and column names of the phenotype data.
+3. What should be true about the columns of our expression data 
+and the rows of our phenotype data?
+4. How can you verify this in R? (hint: ```?identical```)
+
+Challenge Solutions
+========================================================
+type: prompt
+**The row names of the phenotype data should be identical to 
+the column names of the expression data.**
+```{r, ch1_sol}
+head(rownames(pheno))
+head(colnames(express))
+identical(rownames(pheno), colnames(express))
+```
+
+Metadata: Data about phenotype data
+========================================================
+- The column names of the phenotype data can often become cryptic
+```{r, pheno_names, echo = FALSE}
+colnames(pheno)
+```
+- Create a metadata data frame to store more meaningful descriptions
+```{r, meta_df, tidy = FALSE}
+meta <- data.frame(labelDescription = 
+                     c("Sex of the patient at beginning of study",
+                       "Case/control status", 
+                       "Huffmann-Berelizka score of psychocognitive transcendance"),
+                   row.names = colnames(pheno))
+meta
+```
+
+AnnotatedDataFrame object
+========================================================
+- An ```AnnotatedDataFrame``` consists of two parts:
+  1. A collection of samples and the values of variables measured on those samples
+  2. A description of each variable measured
+- It links the phenotype data and metadata
+
+AnnotatedDataFrame object
+========================================================
+```{r, pheno_adf}
+pheno.adf <- new("AnnotatedDataFrame",
+                 data = pheno,
+                 varMetadata = meta)
+pheno.adf
+```
+
+Conveniently access pheno.adf elements
+========================================================
+```{r, access_pheno_adf1}
+# Get sample names
+sampleNames(pheno.adf)
+# Get variable descriptions
+varMetadata(pheno.adf)
+# Get phenotype data
+pData(pheno.adf)
+```
+
+Annotations / Feature Metadata
+========================================================
+- Metadata on features is as important as metadata on samples
+- We can either...
+  - supply our own feature metadata
+  - use pre-compiled feature data packages
+- Bioconductor stores feature data package by type of chip or 
+instrument
+- The package "hgu95av2.db" contains feature data for the 
+Affymetrix hgu95av2 chip
+```{r, feature_md}
+# biocLite("hgu95av2.db")
+feature.md <- "hgu95av2.db"
+```
+
+Experiment Data
+========================================================
+- Basic details about the experiment
+- Stored in a Microarray Experiment Information object (MIAME)
+```{r, miame}
+experiment <- new("MIAME",
+                  name = "Walter White",
+                  lab = "Superlab under Lavanderia Brillante",
+                  contact = "wwhite@secretlab.com",
+                  title = "Breaking Bad",
+                  abstract = "Running a secret meth lab...",
+                  url = "www.breakingbad.com",
+                  other = list(partner = "Jesse Pinkman",
+                               boss = "Gustavo Fring"))
+```
+
+Experiment Data
+========================================================
+```{r, exp_data, dependson = "miame"}
+experiment
+abstract(experiment)
+```
+
+See [```?MIAME```](http://svitsrv25.epfl.ch/R-doc/library/Biobase/html/class.MIAME.html) for available slots
+
+Assemble the ExpressionSet
+========================================================
+We have...
+  - Assay/expression data: **```express```**
+  - Phenotype data and its metadata: **```pheno.adf```**
+  - Annotation/feature metadata: **```feature.md```**
+  - Experiment data: **```experiment```**
+  
+Assemble the ExpressionSet
+========================================================
+Use the **```ExpressionSet()```** function to assemble the 
+*ExpressionSet*
+```{r, assemble}
+exampleSet <- ExpressionSet(assayData = express,
+                            phenoData = pheno.adf,
+                            annotation = feature.md,
+                            experimentData = experiment)
+exampleSet
+```
+
+Access the ExpressionSet
+========================================================
+- Use ```$``` to access columns of phenotype data
+```{r, dollar}
+head(exampleSet$gender)
+```
+- Use ```featureNames()``` or ```sampleNames()```
+```{r, fnames}
+head(featureNames(exampleSet))
+head(sampleNames(exampleSet))
+```
+
+Access the ExpressionSet
+========================================================
+- Retrieve the expression/assay data using ```exprs()```
+```{r, exprs}
+exprs(exampleSet)[1:5, 1:7]
+```
+- Retrieve the phenotype data frame using ```pData()```
+```{r, pData}
+pData(exampleSet)
+```
+
+Subset the ExpressionSet
+========================================================
+Create a subset of the *ExpressionSet* consisting of the first 5 
+features and first 3 subjects
+
+```{r, subset1}
+ss <- exampleSet[1:5, 1:3]
+dim(ss)
+featureNames(ss)
+sampleNames(ss)
+```
+
+Subset the ExpressionSet
+========================================================
+Create a subset of consisting of only male samples
+
+```{r, subset2}
+males <- exampleSet[, exampleSet$gender == "Male"]
+males
+```
+
+Use the ExpressionSet as Input
+========================================================
+We'll use the ```ChromHeatMap``` package to quickly demonstrate 
+how quickly our *ExpressionSet* can be utilized.
+
+> The [```ChromHeatMap```](http://www.bioconductor.org/packages/release/bioc/html/ChromHeatMap.html) 
+package provides functions for visualising
+expression data in a genomic context, by generating heat map 
+images in which data is plotted along a given chromosome for all
+the samples in a data matrix.
+
+Use the ExpressionSet as Input
+========================================================
+To use ```ChromHeatMap``` we will:
+
+1. Use our *ExpressionSet* as input
+2. Map the expression data onto chromosome coordinates
+3. Plot the heatmap
+
+Use the ExpressionSet as Input
+========================================================
+```{r, chrheatmap1, eval = FALSE}
+biocLite("ChromHeatMap") # install the package
+require(ChromHeatMap) # load the package
+
+# map the expression data onto chromosome coordinates
+chrdata <- makeChrStrandData(exampleSet,
+                             lib = annotation(exampleSet))
+plotChrMap(chrdata, chr = 19)
+```
+
+```{r, chrheatmap2, fig.align = 'center', echo = FALSE}
+require(ChromHeatMap) # load the package
+
+# map the expression data onto chromosome coordinates
+chrdata <- makeChrStrandData(exampleSet,
+                             lib = annotation(exampleSet))
+plotChrMap(chrdata, chr = 19)
+```
+
+Thank you to...
+========================================================
+- [The Bioconductor People](http://www.bioconductor.org/)
+- Seth Falcon, Martin Morgan and Robert Gentleman
+- [The R Project for Statistical Computing](http://www.r-project.org)
+- [RStudio People](http://www.rstudio.com)
+- [BIO5 Institute](http://www.bio5.org/)
+- [Southwest Environmental Health Sciences Center](http://swehsc.pharmacy.arizona.edu/)
+
+R Session Info
+========================================================
+```{r, r_session, echo = FALSE}
+sessionInfo()
+```
+
+
+
+
+```{r, readme, eval = FALSE, include = FALSE, echo = FALSE}
+# run to get readme from slide markdown
+# not to be run when slides compile
+file.copy("materials/day4/day4_slides.md", 
+          "materials/day4/readme.md", 
+          overwrite = TRUE)
 ```
