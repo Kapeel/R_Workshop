@@ -180,9 +180,7 @@ Load Assay/Expression Data
 - Use ```read.csv()``` to load the expression data
 
 ```{r, load_expression}
-express <- read.csv("expression.csv", 
-                    stringsAsFactors = FALSE,
-                    row.names = 1)
+express <- read.csv("expression.csv", row.names = 1)
 ```
 
 - **```row.names = 1```** tells it the first column should be read in 

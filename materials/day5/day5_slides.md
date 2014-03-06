@@ -192,9 +192,7 @@ Load Assay/Expression Data
 
 
 ```r
-express <- read.csv("expression.csv", 
-                    stringsAsFactors = FALSE,
-                    row.names = 1)
+express <- read.csv("expression.csv", row.names = 1)
 ```
 
 

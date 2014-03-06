@@ -1409,9 +1409,7 @@ download.file(paste0(myURL, &quot;phenotype.csv&quot;), &quot;phenotype.csv&quot
 <li>Use <code>read.csv()</code> to load the expression data</li>
 </ul>
 
-<pre><code class="r">express &lt;- read.csv(&quot;expression.csv&quot;, 
-                    stringsAsFactors = FALSE,
-                    row.names = 1)
+<pre><code class="r">express &lt;- read.csv(&quot;expression.csv&quot;, row.names = 1)
 </code></pre>
 
 <ul>
