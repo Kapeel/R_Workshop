@@ -1191,8 +1191,8 @@ biocLite()
 </code></pre>
 
 <ul>
-<li>This installs the Bioconductor packages Biobase, IRanges and 
-AnnotationDbi (as well as some dependencies)</li>
+<li>This installs the Bioconductor packages BiocInstaller, Biobase,
+IRanges and AnnotationDbi (as well as some dependencies)</li>
 <li>Refresh your package list in RStudio</li>
 </ul>
 
@@ -1756,7 +1756,7 @@ Affymetrix hgu95av2 chip</li>
 </ul>
 
 <pre><code class="r"># biocLite(&quot;hgu95av2.db&quot;)
-feature.md &lt;- &quot;hgu95av2.db&quot;
+annot &lt;- &quot;hgu95av2.db&quot;
 </code></pre>
 
 </div>
@@ -1825,7 +1825,7 @@ feature.md &lt;- &quot;hgu95av2.db&quot;
 <ul>
 <li>Assay/expression data: <strong><code>express</code></strong></li>
 <li>Phenotype data and its metadata: <strong><code>pheno.adf</code></strong></li>
-<li>Annotation/feature metadata: <strong><code>feature.md</code></strong></li>
+<li>Annotation/feature metadata: <strong><code>annot</code></strong></li>
 <li>Experiment data: <strong><code>experiment</code></strong></li>
 </ul>
 
@@ -1840,7 +1840,7 @@ feature.md &lt;- &quot;hgu95av2.db&quot;
 
 <pre><code class="r">exampleSet &lt;- ExpressionSet(assayData = express,
                             phenoData = pheno.adf,
-                            annotation = feature.md,
+                            annotation = annot,
                             experimentData = experiment)
 exampleSet
 </code></pre>
@@ -2064,7 +2064,9 @@ Number of features plotted: 17
 <div class="slideContent" >
 <ul>
 <li><a href="http://www.bioconductor.org/">The Bioconductor People</a></li>
-<li>Seth Falcon, Martin Morgan and Robert Gentleman</li>
+<li>Seth Falcon, Martin Morgan and Robert Gentleman: 
+<a href="http://www.bioconductor.org/packages/2.13/bioc/vignettes/Biobase/inst/doc/ExpressionSetIntroduction.pdf">Intro to <em>ExpressionSet</em></a></li>
+<li>Tim F. Rayner: <a href="http://www.bioconductor.org/packages/release/bioc/html/ChromHeatMap.html">ChromHeatMap</a></li>
 <li><a href="http://www.r-project.org">The R Project for Statistical Computing</a></li>
 <li><a href="http://www.rstudio.com">RStudio People</a></li>
 <li><a href="http://www.bio5.org/">BIO5 Institute</a></li>

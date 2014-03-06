@@ -45,8 +45,8 @@ biocLite()
 ```
 
 
-- This installs the Bioconductor packages Biobase, IRanges and 
-AnnotationDbi (as well as some dependencies)
+- This installs the Bioconductor packages BiocInstaller, Biobase,
+IRanges and AnnotationDbi (as well as some dependencies)
 - Refresh your package list in RStudio
 
 Installing Bioconductor Packages
@@ -527,7 +527,7 @@ Affymetrix hgu95av2 chip
 
 ```r
 # biocLite("hgu95av2.db")
-feature.md <- "hgu95av2.db"
+annot <- "hgu95av2.db"
 ```
 
 
@@ -589,7 +589,7 @@ Assemble the ExpressionSet
 We have...
   - Assay/expression data: **```express```**
   - Phenotype data and its metadata: **```pheno.adf```**
-  - Annotation/feature metadata: **```feature.md```**
+  - Annotation/feature metadata: **```annot```**
   - Experiment data: **```experiment```**
   
 Assemble the ExpressionSet
@@ -600,7 +600,7 @@ Use the **```ExpressionSet()```** function to assemble the
 ```r
 exampleSet <- ExpressionSet(assayData = express,
                             phenoData = pheno.adf,
-                            annotation = feature.md,
+                            annotation = annot,
                             experimentData = experiment)
 exampleSet
 ```
@@ -810,7 +810,9 @@ Number of features plotted: 17
 Thank you to...
 ========================================================
 - [The Bioconductor People](http://www.bioconductor.org/)
-- Seth Falcon, Martin Morgan and Robert Gentleman
+- Seth Falcon, Martin Morgan and Robert Gentleman: 
+[Intro to *ExpressionSet*](http://www.bioconductor.org/packages/2.13/bioc/vignettes/Biobase/inst/doc/ExpressionSetIntroduction.pdf)
+- Tim F. Rayner: [ChromHeatMap](http://www.bioconductor.org/packages/release/bioc/html/ChromHeatMap.html)
 - [The R Project for Statistical Computing](http://www.r-project.org)
 - [RStudio People](http://www.rstudio.com)
 - [BIO5 Institute](http://www.bio5.org/)
